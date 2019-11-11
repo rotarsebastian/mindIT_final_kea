@@ -1,1 +1,2 @@
-# mindIT_final_kea
+# mindIT
+KEA Final Project
