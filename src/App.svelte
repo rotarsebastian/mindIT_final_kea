@@ -4,7 +4,7 @@
 
 
 	const getData = () => {
-		axios.get('http://localhost:8080/backend/apis/api-get-riddles.php').then(response => console.log(response.data));
+		axios.get('https://aqueous-escarpment-49631.herokuapp.com/apis/api-get-riddles.php').then(response => console.log(response.data));
 	};
 
 	getData();
