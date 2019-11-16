@@ -11,7 +11,7 @@
 		if (riddlesArray) {
 			return riddlesArray;
 		} else {
-			throw new Error(text);
+			throw new Error();
 		}
 	}
 		
