@@ -77,11 +77,9 @@
 {#await promiseRiddles}
 	<p>...waiting</p>
 {:then riddles}
-	{#each riddles as [ id, text, lastName, email, createdAt ], i} 
+	{#each riddles as [ riddle_id, content, author, answer, createdAt, finishesAt, price ], i} 
 		<Riddle>
-			<div>{text}</div>
-			<div>{lastName}</div>
-			<div>{email}</div>
+			<div>{content}</div>
 			<div>Created at: {createdAt}</div>
 		</Riddle>
 	{/each}
