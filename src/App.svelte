@@ -16,11 +16,12 @@
 	}
 		
 	const addRiddle = () => {
-		console.log(text, lastName, email);
+		console.log(riddle_content_value, riddle_answer_value, riddle_entry_value, riddle_duration_value);
 		axios.post(basicURL + 'api-create-riddle.php', {
-			riddle_text: text,
-			lastName: lastName,
-			email: email
+			riddle_content: riddle_content_value,
+			riddle_answer: riddle_answer_value,
+			riddle_entry: riddle_entry_value,
+			riddle_duration: riddle_duration_value
 		})
 		.then(function (response) {
 			console.log(response.data);
@@ -30,7 +31,7 @@
 		});
 	};
 
-	let text, lastName, email = '';
+	let riddle_content_value, riddle_answer_value, riddle_entry_value, riddle_duration_value = '';
 
 </script>
 
@@ -55,21 +56,28 @@
 	<label for="text">
 		Riddle Text
 	</label>
-	<input id="text" bind:value={text}>
+	<input id="text" bind:value={riddle_content_value}>
 </div>
 
 <div class="inputElement">
 	<label for="lastName">
-		Last name
+		Answer
 	</label>
-	<input id="lastName" bind:value={lastName}>
+	<input id="lastName" bind:value={riddle_answer_value}>
 </div>
 
 <div class="inputElement">
 	<label for="email">
-		Email
+		Entry
 	</label>
-	<input id="email" bind:value={email}>
+	<input id="email" bind:value={riddle_entry_value}>
+</div>
+
+<div class="inputElement">
+	<label for="email">
+		Duration
+	</label>
+	<input id="email" bind:value={riddle_duration_value}>
 </div>
 
 <button on:click={addRiddle}>Add riddle</button>
