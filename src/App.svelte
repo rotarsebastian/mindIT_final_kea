@@ -1,18 +1,21 @@
 <script>
-	import axios from "axios";
-	import jq from "jquery";
+	//import axios from "axios";
+	//import jq from "jquery";
+	//import Riddle from './components/Riddle.svelte';
 	import Riddle from './components/Riddle.svelte';
+	import router, { curRoute } from './routing/router.js';
+	import RouterLink from './routing/RouterLink.svelte';
+	import { onMount } from 'svelte';
 
-	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
-	const promiseRiddles = getData();
-
-	async function getData() {
-		const riddlesArray = await axios.get(basicURL + 'api-get-riddles.php').then(response => {return response.data;});
-		if (riddlesArray) {
-			return riddlesArray;
-		} else {
-			throw new Error();
+	onMount(() => {
+		curRoute.set(window.location.pathname);
+		if (!history.state) {
+			window.history.replaceState({path: window.location.pathname}, '',   window.location.href)
 		}
+	})
+
+	function handlerBackNavigation(event){
+		curRoute.set(event.state.path)
 	}
 		
 	const addRiddle = () => {
@@ -32,6 +35,7 @@
 	};
 
 	let riddle_content_value, riddle_answer_value, riddle_entry_value, riddle_duration_value = '';
+	
 
 </script>
 
@@ -52,7 +56,7 @@
 <!-- ************************HTML************************** -->
 <!-- ****************************************************** -->
 
-<div class="inputElement">
+<!-- <div class="inputElement">
 	<label for="text">
 		Riddle Text
 	</label>
@@ -80,20 +84,21 @@
 	<input id="email" bind:value={riddle_duration_value}>
 </div>
 
-<button on:click={addRiddle}>Add riddle</button>
+<button on:click={addRiddle}>Add riddle</button> -->
 
-{#await promiseRiddles}
-	<p>...waiting</p>
-{:then riddles}
-	{#each riddles as [ riddle_id, content, author, answer, createdAt, finishesAt, price ], i} 
-		<Riddle>
-			<div>{content}</div>
-			<div>Created at: {createdAt}</div>
-		</Riddle>
-	{/each}
-{:catch error}
-	<p style="color: red">{error.message}</p>
-{/await}
+<!-- <HeaderTop></HeaderTop> -->
+
+<svelte:window on:popstate={handlerBackNavigation} />
+
+<RouterLink page={{path: '/home', name: 'Home'}} />
+<RouterLink page={{path: '/createRiddle', name: 'Create Riddle'}} />
+
+<div id="pageContent">
+	<!-- Page component updates here -->
+	<svelte:component this={router[$curRoute]} />
+</div>
+
+
 
 
 
