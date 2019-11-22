@@ -16,7 +16,6 @@ function redirectTo(event){
 a {
     text-transform: uppercase;
     text-decoration: none;
-    padding: 1rem;
     color: white;
     background: purple;
 }

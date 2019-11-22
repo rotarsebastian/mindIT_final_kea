@@ -4,11 +4,12 @@
 	import jq from "jquery";
 	import Riddle from '../components/Riddle.svelte';
 
-	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
-	const promiseRiddles = getData();
+	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/',
+		promiseRiddles = getData();
 
 	async function getData() {
-		const riddlesArray = await axios.get(basicURL + 'api-get-riddles.php').then(response => {return response.data;});
+		const limit = 2;
+		const riddlesArray = await axios.get(basicURL + `api-get-riddles.php?limit=${limit}`).then(response => {return response.data;});
 		if (riddlesArray) {
 			return riddlesArray;
 		} else {
