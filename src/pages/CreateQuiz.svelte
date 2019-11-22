@@ -20,6 +20,6 @@
 </div>
 
 
-<button on:click={ addQuestion }>Add question</button>
+<!-- <button on:click={ addQuestion }>Add question</button> -->
 
 <button on:click={ addRiddle }>Create quiz</button>
