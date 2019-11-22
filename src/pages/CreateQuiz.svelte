@@ -1,63 +1,25 @@
 <script>
-	import axios from "axios";
+	import CreateQuestion, { addRiddle } from '../components/CreateQuestion.svelte';
 
-    let riddle_content_value, riddle_answer_value, riddle_entry_value, riddle_duration_value = '';
-    const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
+	let question;
 
-    const addRiddle = () => {
-        console.log(riddle_content_value, riddle_answer_value, riddle_entry_value, riddle_duration_value);
-        axios.post(basicURL + 'api-create-riddle.php', {
-            riddle_content: riddle_content_value,
-            riddle_answer: riddle_answer_value,
-            riddle_entry: riddle_entry_value,
-            riddle_duration: riddle_duration_value
-        })
-        .then(function (response) {
-            console.log(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-    };
+	const addQuestion = () => {
+		// const child = document.createElement(new CreateQuestion);
+		// child.textContent = 'child';
+		// question.appendChild(child);
+	}
 
 </script>
 <style>
-    .inputElement{
-		display: flex;
-		justify-content: space-between;
-		width: 300px;
-		height: auto;
-	}
 </style>
 
-<h1>This is Create page</h1>
+<h1>This is Create quiz page</h1>
 
-<div class="inputElement">
-	<label for="text">
-		Riddle Text
-	</label>
-	<input id="text" bind:value={riddle_content_value}>
+<div class="questions" bind:this={ question }  >
+	<CreateQuestion/>
 </div>
 
-<div class="inputElement">
-	<label for="lastName">
-		Answer
-	</label>
-	<input id="lastName" bind:value={riddle_answer_value}>
-</div>
 
-<div class="inputElement">
-	<label for="email">
-		Entry
-	</label>
-	<input id="email" bind:value={riddle_entry_value}>
-</div>
+<button on:click={ addQuestion }>Add question</button>
 
-<div class="inputElement">
-	<label for="email">
-		Duration
-	</label>
-	<input id="email" bind:value={riddle_duration_value}>
-</div>
-
-<button on:click={addRiddle}>Add riddle</button>
+<button on:click={ addRiddle }>Create quiz</button>
