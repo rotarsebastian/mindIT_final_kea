@@ -1,5 +1,5 @@
 <style>
-	.riddle {
+	.question {
 		width: 300px;
 		border: 1px solid #aaa;
 		border-radius: 2px;
@@ -9,6 +9,6 @@
 	}
 </style>
 
-<div class="riddle">
+<div class="question">
 	<slot></slot>
 </div>

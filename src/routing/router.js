@@ -1,12 +1,12 @@
 import Home from '../pages/Home.svelte';
-import CreateRiddle from '../pages/CreateRiddle.svelte';
+import CreateQuiz from '../pages/CreateQuiz.svelte';
 
 import { writable } from 'svelte/store';
 
 const router = {
     '/': Home,
     '/home': Home,
-    '/createRiddle': CreateRiddle
+    '/create-quiz': CreateQuiz
 }
 export default router;
 

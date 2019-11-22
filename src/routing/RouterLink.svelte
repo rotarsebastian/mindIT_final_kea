@@ -14,10 +14,12 @@ function redirectTo(event){
 
 <style>
 a {
-    text-transform: uppercase;
-    text-decoration: none;
-    color: white;
-    background: purple;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: purple;
+  padding: 1rem;
 }
 </style>
 
