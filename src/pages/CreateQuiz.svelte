@@ -4,7 +4,7 @@
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 	let arrayOfQuestions = [];
 
-	let riddleContentValue = '', riddleAnswerValue = '', riddleDifficultyValue, canCreateQuiz = false;
+	let questionValue = '', questionAnswer = '', questionDifficulty, canCreateQuiz = false;
 	const difficultyLevel = [
 		{ value: '', text: 'Select difficulty level' },
 		{ value: 'easy', text: 'Easy' },
@@ -13,14 +13,14 @@
 	];
 
 	const addQuestion = () => {
-		if (riddleDifficultyValue !== '' && riddleContentValue.length > 5 && riddleAnswerValue.length > 5) {
+		if (questionDifficulty !== '' && questionValue.length > 5 && questionAnswer.length > 5) {
 			const newQuestion = {
-				questionContentValue: riddleContentValue,
-				questionAnswerValue: riddleAnswerValue,
-				questionDifficultyValue: riddleDifficultyValue,
+				questionContentValue: questionValue,
+				questionAnswerValue: questionAnswer,
+				questionDifficultyValue: questionDifficulty,
 			};
 			arrayOfQuestions.push(newQuestion);
-			riddleContentValue = '', riddleAnswerValue = '', riddleDifficultyValue = '';
+			questionValue = '', questionAnswer = '', questionDifficulty = '';
 			if(arrayOfQuestions.length > 1){
 				canCreateQuiz = true;
 			}
@@ -58,18 +58,18 @@
 			<label for="text">
 				Question
 			</label>
-			<input id="text" bind:value={riddleContentValue} name="riddleValue">
+			<input id="text" bind:value={questionValue} name="questionValue">
 		</div>
 
 		<div class="inputElement">
 			<label for="lastName">
 				Answer
 			</label>
-			<input id="lastName" bind:value={riddleAnswerValue} name="riddleAnswer">
+			<input id="lastName" bind:value={questionAnswer} name="questionAnswer">
 		</div>
 
 		<div class="inputElement">
-			<select bind:value={riddleDifficultyValue} name="riddleDifficulty">
+			<select bind:value={questionDifficulty} name="questionDifficulty">
 				{#each difficultyLevel as level}
 					<option value={level.value}>
 						{level.text}
