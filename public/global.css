@@ -9,12 +9,17 @@ body {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-family: 'Open Sans', sans-serif;
 }
 
 a {
 	color: rgb(0,100,200);
 	text-decoration: none;
+    font-family: 'Raleway', sans-serif;
+}
+
+a.svelte-1tckwlf {
+	margin-top: 2.4vh;
 }
 
 a:hover {

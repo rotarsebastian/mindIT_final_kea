@@ -37,7 +37,7 @@
 <svelte:window on:popstate={handlerBackNavigation} />
 
 <div class="header_container">
-	<img src="./assets/images/mindit_logo.svg" id="mindit_logo" alt="mindit_logo"/>
+	<img src="./assets/images/mindit_logo_3.svg" id="mindit_logo" alt="mindit_logo"/>
 	<div class:navbar="{current === 'navbar'}"></div>
 
 	<RouterLink page={{path: '/home', name: 'Home'}} />
