@@ -15,9 +15,9 @@
 	const addQuestion = () => {
 		if (riddleDifficultyValue !== '' && riddleContentValue.length > 5 && riddleAnswerValue.length > 5) {
 			const newQuestion = {
-				riddleContentValue: riddleContentValue,
-				riddleAnswerValue: riddleAnswerValue,
-				riddleDifficultyValue: riddleDifficultyValue,
+				questionContentValue: riddleContentValue,
+				questionAnswerValue: riddleAnswerValue,
+				questionDifficultyValue: riddleDifficultyValue,
 			};
 			arrayOfQuestions.push(newQuestion);
 			riddleContentValue = '', riddleAnswerValue = '', riddleDifficultyValue = '';
