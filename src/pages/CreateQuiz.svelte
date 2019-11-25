@@ -38,15 +38,26 @@
 		.catch(function (error) {
 			console.log(error);
 		});
-    };
+	};
+	
+	const isNotValid = (value) => {
+		if( value.length > 5 ) {
+			return false;
+		} 
+		return true;
+	}
 
 </script>
 <style>
-  .inputElement{
+  	.inputElement{ 
 		display: flex;
 		justify-content: space-between;
 		width: 300px;
 		height: auto;
+	}
+
+	.error {
+		color: red;
 	}
 </style>
 
@@ -58,8 +69,11 @@
 			<label for="text">
 				Question
 			</label>
-			<input id="text" bind:value={questionValue} name="questionValue">
+			<input id="text" bind:value={questionValue}>
 		</div>
+		{#if isNotValid(questionValue) }
+			<div class="error">Not long enough</div>
+		{/if}
 
 		<div class="inputElement">
 			<label for="lastName">
@@ -67,6 +81,9 @@
 			</label>
 			<input id="lastName" bind:value={questionAnswer} name="questionAnswer">
 		</div>
+		{#if isNotValid(questionAnswer) }
+			<div class="error">Not long enough</div>
+		{/if}
 
 		<div class="inputElement">
 			<select bind:value={questionDifficulty} name="questionDifficulty">
