@@ -53,11 +53,13 @@
 
 </script>
 <style>
-  	.inputElement{ 
-		display: flex;
-		justify-content: space-between;
-		width: 300px;
-		height: auto;
+  	.form_container {
+		width: 100vw;
+	}
+
+	.inputElement textarea {
+		resize: none;
+		outline: none;
 	}
 
 	.error {
@@ -69,13 +71,13 @@
 
 <h1>This is Create quiz page</h1>
 
-<div class="form_container">
-
+<div class="page_content">
+	<div class="form_container">
 		<div class="inputElement">
 			<label for="text">
 				Question
 			</label>
-			<input id="text" bind:value={questionValue}>
+			<textarea id="text" bind:value={questionValue}></textarea>
 		</div>
 		{#if showError(questionValue) }
 			<div class="error">Not long enough</div>
@@ -85,7 +87,7 @@
 			<label for="lastName">
 				Answer
 			</label>
-				<input id="lastName" bind:value={questionAnswer} name="questionAnswer">
+				<textarea id="lastName" bind:value={questionAnswer} name="questionAnswer"></textarea>
 		</div>
 		{#if showError(questionAnswer) }
 			<div class="error">Not long enough</div>
@@ -106,8 +108,9 @@
 		{/if}
 
 		<button on:click={ addQuestion } >Add question</button>
+		{#if canCreateQuiz}
+			<button on:click={ createQuiz }>Create quiz</button>
+		{/if}
+	</div>
 </div>
 
-{#if canCreateQuiz}
-	<button on:click={ createQuiz }>Create quiz</button>
-{/if}
