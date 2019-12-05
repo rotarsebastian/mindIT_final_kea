@@ -4,7 +4,7 @@
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 	let arrayOfQuestions = [];
 
-	let questionValue = '', questionAnswer = '', questionDifficulty = 0, canCreateQuiz = false, difficultyChoosed = false;
+	let quizName = 'dada', questionValue = '', questionAnswer = '', questionDifficulty = 0, canCreateQuiz = false, difficultyChoosed = false;
 	const difficultyLevel = [
 		{ value: 0, text: 'Select difficulty level' },
 		{ value: 1, text: 'Easy' },
@@ -33,8 +33,10 @@
 	}
 
     const createQuiz = () => {
+		console.log(JSON.stringify(arrayOfQuestions))
 		axios.post(basicURL + 'api-create-quiz.php', {
-			questions: JSON.stringify(arrayOfQuestions)
+			name: quizName,
+			questions: arrayOfQuestions
 		})
 		.then(function (response) {
 			console.log(response.data);
