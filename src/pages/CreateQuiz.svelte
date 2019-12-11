@@ -1,5 +1,7 @@
 <script>
-	import axios from "axios";
+	// import axios from "axios";
+	import jq from "jquery";
+
 
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 	let arrayOfQuestions = [];
@@ -33,17 +35,22 @@
 	}
 
     const createQuiz = () => {
-		console.log(JSON.stringify(arrayOfQuestions))
-		axios.post(basicURL + 'api-create-quiz.php', {
-			name: quizName,
-			questions: arrayOfQuestions
-		})
-		.then(function (response) {
-			console.log(response.data);
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
+		jq.ajax({
+            type: "POST",
+            url: basicURL + "api-create-quiz.php",
+            dataType: "json",
+            data: {
+                name: quizName,
+				questions: JSON.stringify(arrayOfQuestions),
+				token: localStorage.token
+            },
+            success: (data) => {
+                console.log(data);
+            },
+            error: () => {
+                alert("Error: Login Failed");
+            }
+        });
 	};
 	
 	const showError = (value) => {

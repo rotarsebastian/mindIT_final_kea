@@ -15,7 +15,6 @@
 				token: localStorage.token
 			},
 			success: (data) => {
-				console.log(data);
 				return data;
 			}
 		});
@@ -37,7 +36,7 @@
 {#await promiseQuizzes}
     <p>...waiting (spinner)</p>
 {:then quizzes}
-    {#each quizzes as {id, name, questionsAmount, difficulty, user_first_name, user_last_name}, i} 
+    {#each quizzes as {id, name, questionsAmount, difficulty, user_first_name, user_last_name, user_id}, i} 
         <Quiz id={id}>
             <div>{name}</div>
             <div>{questionsAmount}</div>

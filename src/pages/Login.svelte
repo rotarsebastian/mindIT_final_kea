@@ -91,7 +91,6 @@
             success: function(data) {
                 console.log(data, data['token']);
                 localStorage.token = data['token'];
-                console.log('Successfully retrieved token from the server! Token: ' + data['token']);
             },
             error: function() {
                 alert("Error: Login Failed");
