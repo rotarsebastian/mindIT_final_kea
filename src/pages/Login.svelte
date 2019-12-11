@@ -1,10 +1,9 @@
 <script>
-    // import axios from "axios";
     import jq from "jquery";
 
     const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 
-	let user_emailOrUsername = '', user_password = '';
+	let user_emailOrUsername = 'admin_sebi', user_password = 'sebi1234';
 
     jq(document).ready(function() {
         // jq('#test').click(function() {
@@ -111,11 +110,6 @@
 		width: 100vw;
 	}
 
-	.inputElement textarea {
-		resize: none;
-		outline: none;
-	}
-
 	.error {
 		color: red;
 		font-size: 0.7rem;
@@ -131,7 +125,7 @@
 			<label for="text">
 				Username or email
 			</label>
-			<textarea id="text" bind:value={user_emailOrUsername}></textarea>
+			<input id="text" bind:value={user_emailOrUsername} />
 		</div>
 		{#if showError(user_emailOrUsername) }
 			<div class="error">Not long enough</div>
@@ -141,7 +135,7 @@
 			<label for="lastName">
 				Password
 			</label>
-				<textarea id="lastName" bind:value={user_password} name="password"></textarea>
+				<input id="lastName" bind:value={user_password} name="password" />
 		</div>
 		{#if showError(user_password) }
 			<div class="error">Not long enough</div>

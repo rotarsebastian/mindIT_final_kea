@@ -127,7 +127,7 @@
 
 	<RouterLink page={{path: '/home', name: 'Home'}} />
 	<RouterLink page={{path: '/create-quiz', name: 'Create Quiz'}} />
-	<RouterLink page={{path: '/login', name: 'Login'}} />
+	<!-- <RouterLink page={{path: '/login', name: 'Login'}} /> -->
 
 	<div id="searchBar_addProperty">
 		<div id="searchBar">

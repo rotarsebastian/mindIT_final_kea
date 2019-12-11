@@ -5,7 +5,7 @@ import Login from '../pages/Login.svelte';
 import { writable } from 'svelte/store';
 
 const router = {
-    '/': Home,
+    '/': Login,
     '/home': Home,
     '/create-quiz': CreateQuiz,
     '/login': Login
