@@ -1,21 +1,32 @@
 <script>
     import { onDestroy } from 'svelte';
-    import axios from "axios";
 	import jq from "jquery";
-	import Riddle from '../components/Riddle.svelte';
+	import Quiz from '../components/Quiz.svelte';
 
-	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/',
-		promiseRiddles = getData();
+	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 
-	async function getData() {
-		const limit = 2;
-		const riddlesArray = await axios.get(basicURL + `api-get-riddles.php?limit=${limit}`).then(response => {return response.data;});
-		if (riddlesArray) {
-			return riddlesArray;
+	const getData = async () => {
+		const limit = 20;
+		const quizzesArray = await jq.ajax({
+			type: 'GET',
+			url: basicURL + `api-get-quizzes.php?limit=${limit}`,
+			dataType: "json",
+			data: {
+				token: localStorage.token
+			},
+			success: (data) => {
+				console.log(data);
+				return data;
+			}
+		});
+		if (quizzesArray) {
+			return quizzesArray;
 		} else {
 			throw new Error();
 		}
 	}
+
+	const promiseQuizzes = getData();
 
 </script>
 
@@ -23,16 +34,16 @@
 
 <!-- Page component updates here -->
 
-{#await promiseRiddles}
+{#await promiseQuizzes}
     <p>...waiting (spinner)</p>
-{:then riddles}
-    {#each riddles as [ riddle_id, content, answer, difficulty, createdAt, author ], i} 
-        <Riddle>
-            <div>{content}</div>
-            <div>{answer}</div>
+{:then quizzes}
+    {#each quizzes as {id, name, questionsAmount, difficulty, user_first_name, user_last_name}, i} 
+        <Quiz id={id}>
+            <div>{name}</div>
+            <div>{questionsAmount}</div>
             <div>Difficulty: {difficulty}</div>
-            <div>Created at: {createdAt}</div>
-        </Riddle>
+            <div>Created by: {user_first_name} { user_last_name}</div>
+        </Quiz>
     {/each}
 {:catch error}
     <p style="color: red">{error.message}</p>

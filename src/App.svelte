@@ -1,6 +1,4 @@
 <script>
-	//import jq from "jquery";
-	import Riddle from './components/Riddle.svelte';
 	import Header from './components/Header.svelte';
 	import router, { curRoute } from './routing/router.js';
 	import { onMount } from 'svelte';
