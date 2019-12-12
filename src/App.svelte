@@ -7,19 +7,27 @@
 	let showHeader = true;
 
 	onMount(async () => {
-		if(window.location.pathname === '/login' || window.location.pathname === '/signup') {
-			curRoute.set(window.location.pathname);
-			showHeader = false;
-		}
 		if(!localStorage.token){
 			curRoute.set('/login');
 			window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
 			return false;
 		}
 		await promiseCheckUser;
+		if(window.location.pathname === '/login' || window.location.pathname === '/signup') {
+			if(allowUser) {
+				showHeader = true;
+				curRoute.set('/home');
+				window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
+			} else {
+				curRoute.set(window.location.pathname);
+				window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
+				showHeader = false;
+			}
+		}
 		if(!allowUser) {
 			curRoute.set('/login');
 			window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
+			showHeader = false;
 		}
 		curRoute.set(window.location.pathname);
 		if (!history.state) {

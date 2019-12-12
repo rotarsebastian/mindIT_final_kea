@@ -1,5 +1,6 @@
 <script>
     import { onDestroy } from 'svelte';
+    import { onMount } from 'svelte';
 	import jq from "jquery";
 	import Quiz from '../components/Quiz.svelte';
 
@@ -24,7 +25,6 @@
 			throw new Error();
 		}
 	}
-
 	const promiseQuizzes = getData();
 
 </script>

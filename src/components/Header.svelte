@@ -57,11 +57,11 @@
 				});
 		}
 
-		if (this.value.length < 2) {
-			jq('#results').hide();
-		} else {
-			jq('#results').show();
-		}
+		// if (this.value.length < 2) {
+		// 	jq('#results').hide();
+		// } else {
+		// 	jq('#results').show();
+		// }
 
 	}
 </script>
