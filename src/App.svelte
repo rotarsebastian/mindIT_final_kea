@@ -27,21 +27,6 @@
 		}
 	})
 
-	async function isUserLoggedIn() {
-		if(!localStorage.token){
-			curRoute.set('/login');
-			window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
-			return false;
-		}
-		await promiseCheckUser;
-		if(!allowUser) {
-			curRoute.set('/login');
-			window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
-			return false;
-		}
-		return allowUser ? true : false;
-	}
-
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 
 	const isUserLogged = async () => {
@@ -98,8 +83,6 @@
 		<svelte:component this={router[$curRoute]} />
 	</div>
 
-<!-- {:else if !isUserLoggedIn()}
-	<svelte:component this={router[$curRoute]} /> -->
 {/if}
 
 {#if !allowUser}
