@@ -4,17 +4,28 @@
 	import { onMount } from 'svelte';
 	import jq from "jquery";
 
+	let showHeader = true;
 
-	onMount(() => {
+	onMount(async () => {
+		if(window.location.pathname === '/login' || window.location.pathname === '/signup') {
+			curRoute.set(window.location.pathname);
+			showHeader = false;
+		}
+		if(!localStorage.token){
+			curRoute.set('/login');
+			window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
+			return false;
+		}
+		await promiseCheckUser;
+		if(!allowUser) {
+			curRoute.set('/login');
+			window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
+		}
 		curRoute.set(window.location.pathname);
 		if (!history.state) {
 			window.history.replaceState({path: window.location.pathname}, '',   window.location.href)
 		}
 	})
-
-	function isAuthOrLoginPage() {
-		return (window.location.pathname === '/login' || window.location.pathname === '/signup') ? true : false;
-	}
 
 	async function isUserLoggedIn() {
 		if(!localStorage.token){
@@ -22,9 +33,13 @@
 			window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
 			return false;
 		}
-		if( await promiseCheckUser ){
-			return allowUser ? true : false;
+		await promiseCheckUser;
+		if(!allowUser) {
+			curRoute.set('/login');
+			window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
+			return false;
 		}
+		return allowUser ? true : false;
 	}
 
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
@@ -74,21 +89,22 @@
 <!-- ****************************************************** -->
 
 
-{#if isUserLoggedIn() }
-	{#if !isAuthOrLoginPage()}
+{#if allowUser }
+	{#if showHeader}
 		<Header></Header>
 	{/if}
-
 	<div id="pageContent">
 		<!-- Page component updates here -->
 		<svelte:component this={router[$curRoute]} />
 	</div>
 
-{:else if !isUserLoggedIn()}
-	<svelte:component this={router[$curRoute]} />
+<!-- {:else if !isUserLoggedIn()}
+	<svelte:component this={router[$curRoute]} /> -->
 {/if}
 
-
+{#if !allowUser}
+	<svelte:component this={router[$curRoute]} />
+{/if}
 
 
 

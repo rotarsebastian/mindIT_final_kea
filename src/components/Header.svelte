@@ -1,3 +1,71 @@
+<script>
+	import RouterLink from '../routing/RouterLink.svelte';
+	import router, { curRoute } from '../routing/router.js';
+	import jq from "jquery";
+	import { onMount } from 'svelte';
+
+	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
+	const results = document.querySelector('#results');
+
+	let filterOptions = [
+		{ id: 0, text: `Filter by difficulty`, value: 'unset' },
+		{ id: 1, text: `Very Easy`, value:'VeryEasy' },
+		{ id: 2, text: `Easy`, value:'Easy' },
+		{ id: 3, text: `Medium`, value:'Medium'},
+		{ id: 4, text: `Hard`, value:'Hard'},
+		{ id: 5, text: `Very Hard`, value:'VeryHard' }
+	];
+
+	let selected;
+	let search = '';
+
+	function handlerBackNavigation(event){
+		curRoute.set(event.state.path)
+	}
+
+	function toHomePage(event){
+		curRoute.set('/home');
+		window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
+	}
+
+	function handleSearch() {
+		if (search.length >= 2) {
+			jq('#results').empty();
+				jq.ajax({
+					type: 'GET',
+					url: basicURL + 'api-search-and-filter.php',
+					data: {
+						search: search,
+						limit: 20,
+						token: localStorage.token,
+						filter: selected.value
+					},
+					dataType: "json",
+
+				})
+				.done( matches => {
+					console.log(matches);
+					// jq('#results').empty();
+
+					// jq.each(matches, (index, zip) => {
+					// 	let divZip = `<div class="result showPropertiesByZipCode">jq{zip}</div>`;
+					// 	jq('#results').append(divZip);
+					// });
+				})
+				.fail(function () {
+					console.log('Error');
+				});
+		}
+
+		if (this.value.length < 2) {
+			jq('#results').hide();
+		} else {
+			jq('#results').show();
+		}
+
+	}
+</script>
+
 <style>
 	.header_container {
 		width: 100vw;
@@ -15,7 +83,7 @@
 	}
 
 	/* TOP SEARCH BAR AND PROPERTY ADD */
-	#searchBar_addProperty {
+	#searchBar_container {
 		display: flex;
 		justify-content: space-between;
 		top: 3rem;
@@ -52,74 +120,14 @@
 		overflow-y: scroll;
 		left: 3px;
 	}
-
-	/* .result {
+	.result {
 		padding: .7rem;
 		color: #FF851B;
 		box-shadow: 0px 0px 2px 0px rgba(209, 209, 209, 1);
 		cursor: pointer;
-	} */
+	}
 
 </style>
-
-<script>
-	import RouterLink from '../routing/RouterLink.svelte';
-	import router, { curRoute } from '../routing/router.js';
-	import jq from "jquery";
-
-
-	function handlerBackNavigation(event){
-		curRoute.set(event.state.path)
-	}
-
-	function toHomePage(event){
-		curRoute.set('/home');
-		window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
-	}
-
-	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
-
-	// const search = document.querySelector('#search_input');
-	// const results = document.querySelector('#results');
-
-	// search.addEventListener('input', function () {
-
-	// 	if (jq('#search_input').val().length >= 2) {
-	// 		jq('#results').empty();
-	// 		setTimeout(() => {
-	// 			jq.ajax({
-	// 					url: basicURL + 'api-search.php',
-	// 					data: {
-	// 						search: search.value
-	// 					},
-	// 					dataType: "JSON"
-	// 				})
-	// 				.done(function (matches) {
-	// 					jq('#results').empty();
-	// 					// matches.forEach((match) => {
-	// 					//     jq('#results').append(`<div>jq{match}</div>`);
-	// 					// })
-	// 					jq.each(matches, (index, zip) => {
-	// 						let divZip = `<div class="result showPropertiesByZipCode">jq{zip}</div>`;
-	// 						jq('#results').append(divZip);
-	// 					});
-	// 				})
-	// 				.fail(function () {
-	// 					console.log('Error');
-	// 				});
-	// 		}, 700);
-
-	// 	}
-
-	// 	if (search.value.length < 2) {
-	// 		results.style.display = 'none';
-	// 	} else {
-	// 		results.style.display = 'block';
-	// 	}
-
-	// });
-</script>
-
 <svelte:window on:popstate={handlerBackNavigation} />
 
 <div class="header_container">
@@ -129,10 +137,16 @@
 	<RouterLink page={{path: '/create-quiz', name: 'Create Quiz'}} />
 	<!-- <RouterLink page={{path: '/login', name: 'Login'}} /> -->
 
-	<div id="searchBar_addProperty">
+	<div id="searchBar_container">
 		<div id="searchBar">
-				<input id="search_input" type="text" placeholder="Search for a quiz" name="search" maxlength="4">
-				<!-- <div id="seeAllProperties">See all listed properties</div> -->
+			<input id="search_input" type="text" placeholder="Search for a quiz" name="search" maxlength="30" on:input={handleSearch} bind:value={search}/>
+			<select bind:value={selected} on:change={handleSearch}>
+				{#each filterOptions as difficulty}
+					<option value={difficulty}>
+						{difficulty.text}
+					</option>
+				{/each}
+			</select>
 			<div id="results"></div>
 		</div>
 	</div>

@@ -1,5 +1,7 @@
 <script>
     import jq from "jquery";
+    import { curRoute } from '../routing/router.js';
+
 
     const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 
@@ -90,6 +92,9 @@
             success: function(data) {
                 console.log(data, data['token']);
                 localStorage.token = data['token'];
+                window.location.href = '/home';
+                curRoute.set('/home');
+		        window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
             },
             error: function() {
                 alert("Error: Login Failed");
