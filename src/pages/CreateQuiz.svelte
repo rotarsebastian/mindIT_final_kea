@@ -63,7 +63,7 @@
 </script>
 <style>
   	.form_container {
-		width: 100vw;
+		width: 100%;
 	}
 
 	.inputElement textarea {
