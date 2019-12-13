@@ -45,6 +45,10 @@
 		margin-top: 23px;
 	}
 
+	#profile_name{
+		margin-bottom: 7px;
+	}
+
 	#mindit_user{
 		width: 74%;
 	}

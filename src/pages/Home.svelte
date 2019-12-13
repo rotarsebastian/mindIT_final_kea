@@ -113,6 +113,13 @@
 		margin-right: 23px;
 	}
 
+	#no_quizzes {
+		text-align: center;
+		margin: 3rem;
+		font-size: 18px;
+		color: purple;
+	}
+
 </style>
 
 {#await promiseQuizzes}
@@ -139,14 +146,18 @@
 			<button id="createQuiz_button" on:click={toCreateQuizPage}>+ Create quiz</button>
 		</div>
 	</div>
-    {#each quizzes as {id, name, questionsAmount, difficulty, user_first_name, user_last_name, user_id}, i} 
-        <Quiz id={id}>
-            <div>{name}</div>
-            <div>{questionsAmount}</div>
-            <div>Difficulty: {difficulty}</div>
-            <div>Created by: {user_first_name} { user_last_name}</div>
-        </Quiz>
-    {/each}
+	{#if quizzes.length > 0}
+		{#each quizzes as {id, name, questionsAmount, difficulty, user_first_name, user_last_name, user_id}, i} 
+			<Quiz id={id}>
+				<div>{name}</div>
+				<div>{questionsAmount}</div>
+				<div>Difficulty: {difficulty}</div>
+				<div>Created by: {user_first_name} { user_last_name}</div>
+			</Quiz>
+		{/each}
+		{:else}
+			<div id="no_quizzes">No quizzes were found for your search</div>
+	{/if}
 {:catch error}
     <p style="color: red">{error.message}</p>
 {/await}
