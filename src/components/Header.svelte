@@ -1,7 +1,7 @@
 
 <script>
 	import RouterLink from '../routing/RouterLink.svelte';
-	import router, { curRoute } from '../routing/router.js';
+	import { curRoute } from '../routing/router.js';
 
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';	
 
@@ -19,11 +19,11 @@
 
 <style>
 	.header_container {
-		width: 100vw;
-		height: 100px;
+		width: 100%;
+		height: 74px;
 		border-radius: 2px;
-		box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-		padding: 1em;
+		box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+		padding: 0.75rem;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -42,6 +42,7 @@
 		width: 170px;
 		cursor: pointer;
 		margin-right: 1.5rem;
+		margin-top: 23px;
 	}
 
 	#mindit_user{

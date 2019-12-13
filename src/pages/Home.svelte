@@ -1,6 +1,7 @@
 <script>
 	import jq from "jquery";
 	import Quiz from '../components/Quiz.svelte';
+	import { curRoute } from '../routing/router.js';
 
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 
@@ -57,6 +58,11 @@
 
 	let promiseQuizzes = getInitialData();
 
+	function toCreateQuizPage(event){
+		curRoute.set('/create-quiz');
+		window.history.pushState({path: '/create-quiz'}, '', window.location.origin + '/create-quiz');
+	}
+
 </script>
 
 <style>
@@ -66,22 +72,72 @@
 		text-align: center;
 		line-height: 80vh;
 	}
+
+	#searchBar_container {
+		margin-top: -46px;
+    	margin-bottom: 45px;
+	}
+	#searchBar{
+		margin: 0 20px;
+	}
+	#search_input{
+		width: 100%;
+		border-radius: 4px;
+	}
+	#top_bar{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 16px;
+	}
+
+	#filter_container{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	#filter_icon{
+		width: 20px;
+		margin-right: 15px;
+		filter: invert(60%) sepia(90%) saturate(1657%) hue-rotate(337deg) brightness(95%) contrast(88%);
+	}
+
+	#createQuiz_button{
+		color: white;
+		background: purple;
+		border: none;
+		outline: none;
+		padding: 10px 20px;
+		border-radius: 4px;
+		margin-right: 23px;
+	}
+
 </style>
 
 {#await promiseQuizzes}
     <div class="loading_spinner">...waiting (spinner)</div>
 {:then quizzes }
 	<div id="searchBar_container">
-			<div id="searchBar">
-				<input id="search_input" type="text" placeholder="Search for a quiz" name="search" maxlength="30" on:input={handleSearch} bind:value={search}/>
-				<select bind:value={selected} on:change={handleSearch}>
-					{#each filterOptions as difficulty}
-						<option value={difficulty}>
-							{difficulty.text}
-						</option>
-					{/each}
-				</select>
-			</div>
+		<div id="searchBar">
+			<input id="search_input" type="text" placeholder="Search for a quiz" name="search" maxlength="30" on:input={handleSearch} bind:value={search}/>
+		</div>
+	</div>
+	<div id="top_bar">
+		<div id="filter_container">
+			<img src="./assets/images/filter_icon.svg" id="filter_icon" alt="filter_icon"/>
+			<select bind:value={selected} on:change={handleSearch}>
+				{#each filterOptions as difficulty}
+					<option value={difficulty}>
+						{difficulty.text}
+					</option>
+				{/each}
+			</select>
+		</div>
+
+		<div id="create_quiz">
+			<button id="createQuiz_button" on:click={toCreateQuizPage}>+ Create quiz</button>
+		</div>
 	</div>
     {#each quizzes as {id, name, questionsAmount, difficulty, user_first_name, user_last_name, user_id}, i} 
         <Quiz id={id}>
