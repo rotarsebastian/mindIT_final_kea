@@ -13,7 +13,6 @@
 		curRoute.set('/home');
 		window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
 	}
-
 	
 </script>
 
@@ -39,7 +38,6 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		width: 170px;
 		cursor: pointer;
 		margin-right: 1.5rem;
 		margin-top: 23px;
@@ -47,6 +45,7 @@
 
 	#profile_name{
 		margin-bottom: 7px;
+		font-size: 15px;
 	}
 
 	#mindit_user{
@@ -88,7 +87,7 @@
 	<div id="profile_container" class="dropdown">
 		<div id="profile_icon"><img src="./assets/images/user_default.svg" id="mindit_user" alt="mindit_logo"/></div>
 		<div id="profile_name">
-			James Rodriguez
+			{localStorage.userName}
 		</div>
 		<div class="dropdown-content">
 			<div class="link"> <RouterLink  page={{path: '/my-profile', name: 'My profile'}} /> </div>

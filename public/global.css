@@ -59,6 +59,15 @@ button {
 	outline: none;
 }
 
+.purple_button {
+	color: white;
+	background: purple;
+	border: none;
+	outline: none;
+	padding: 10px 20px;
+	border-radius: 4px;
+}
+
 button:active {
 	background-color: #ddd;
 }

@@ -92,6 +92,7 @@
             success: function(data) {
                 console.log(data, data['token']);
                 localStorage.token = data['token'];
+                localStorage.userName = data['userName'];
                 window.location.href = '/home';
                 curRoute.set('/home');
 		        window.history.pushState({path: '/home'}, '', window.location.origin + '/home');

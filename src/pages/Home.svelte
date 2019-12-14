@@ -58,9 +58,15 @@
 
 	let promiseQuizzes = getInitialData();
 
-	function toCreateQuizPage(event){
+	function toCreateQuizPage(){
 		curRoute.set('/create-quiz');
 		window.history.pushState({path: '/create-quiz'}, '', window.location.origin + '/create-quiz');
+	}
+
+	function toQuizPage(quiz_id){
+		console.log(quiz_id);
+		// curRoute.set('/quiz?id=' + quiz_id);
+		// window.history.pushState({path: '/quiz'}, '', window.location.origin + '/quiz');
 	}
 
 </script>
@@ -103,21 +109,34 @@
 		filter: invert(60%) sepia(90%) saturate(1657%) hue-rotate(337deg) brightness(95%) contrast(88%);
 	}
 
-	#createQuiz_button{
-		color: white;
-		background: purple;
-		border: none;
-		outline: none;
-		padding: 10px 20px;
-		border-radius: 4px;
-		margin-right: 23px;
-	}
-
 	#no_quizzes {
 		text-align: center;
 		margin: 3rem;
 		font-size: 18px;
 		color: purple;
+	}
+
+	.quiz_top_container{
+		display: flex;
+		justify-content: space-between;
+		font-weight: bold;
+		height: 42px;
+	}
+
+	.quiz_name{
+		text-transform: capitalize;
+    	font-size: 22px;
+	}
+
+	.quiz_questions_amount{
+		margin: 1rem 0;
+		font-weight: bold;
+	}
+
+	.quiz_bottom_container{
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
 	}
 
 </style>
@@ -143,16 +162,21 @@
 		</div>
 
 		<div id="create_quiz">
-			<button id="createQuiz_button" on:click={toCreateQuizPage}>+ Create quiz</button>
+			<button class="purple_button" on:click={toCreateQuizPage}>+ Create quiz</button>
 		</div>
 	</div>
 	{#if quizzes.length > 0}
 		{#each quizzes as {id, name, questionsAmount, difficulty, user_first_name, user_last_name, user_id}, i} 
 			<Quiz id={id}>
-				<div>{name}</div>
-				<div>{questionsAmount}</div>
-				<div>Difficulty: {difficulty}</div>
-				<div>Created by: {user_first_name} { user_last_name}</div>
+				<div class="quiz_top_container">
+					<div class="quiz_name">{name}</div>
+					<div class="quiz_difficulty">Difficulty: {difficulty}</div>
+				</div>
+				<div class="quiz_questions_amount">{questionsAmount} Questions</div>
+				<div class="quiz_bottom_container">
+					<div class="quiz_author">created by {user_first_name} { user_last_name}</div>
+					<button class="purple_button" on:click|preventDefault={() => toQuizPage(id)}>Enter quiz</button>
+				</div>
 			</Quiz>
 		{/each}
 		{:else}
