@@ -36,12 +36,6 @@
         align-items: center;
         margin: 2rem 0;
     }
-
-    .answer_quiz_top_bar_left{
-        /* display: flex;
-        justify-content: space-between;
-        align-items: center; */
-    }
   
     .answer_quiz_name{
         font-size: 2rem;
