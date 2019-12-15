@@ -31,7 +31,7 @@
 				questionDifficultyValue: questionDifficulty,
 			};
 			arrayOfQuestions.push(newQuestion);
-			questionValue = '', questionAnswer = '', questionDifficulty = '';
+			questionValue = '', questionAnswer = '', questionDifficulty = 0;
 			if(arrayOfQuestions.length > 1){
 				canCreateQuiz = true;
 				toastr.success('Your question has been added. You can create your quiz now or you can add more questions');
@@ -173,9 +173,9 @@
 			<div class="error">Please select difficulty</div>
 		{/if}
 
-		{#if canCreateQuiz}
-			<button on:click={ createQuiz } class="purple_button">Create quiz</button>
-		{/if}
 	</div>
+	{#if canCreateQuiz}
+		<button on:click={ createQuiz } class="purple_button">Create quiz</button>
+	{/if}
 </div>
 

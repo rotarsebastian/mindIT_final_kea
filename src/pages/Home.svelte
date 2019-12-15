@@ -72,74 +72,10 @@
 </script>
 
 <style>
-	.loading_spinner{
-		width: 100vw;
-		height: 100vh;
-		text-align: center;
-		line-height: 80vh;
-	}
-
-	#searchBar_container {
-		margin-top: -46px;
-    	margin-bottom: 45px;
-	}
-	#searchBar{
-		margin: 0 20px;
-	}
-	#search_input{
-		width: 100%;
-		border-radius: 4px;
-	}
-	#top_bar{
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 16px;
-	}
-
-	#no_quizzes {
-		text-align: center;
-		margin: 3rem;
-		font-size: 18px;
-		color: purple;
-	}
-
-	.quiz_top_container{
-		display: flex;
-		justify-content: space-between;
-		font-weight: bold;
-		height: 42px;
-	}
-
-	.quiz_name{
-		text-transform: capitalize;
-    	font-size: 22px;
-	}
-
-	.quiz_difficulty {
-    	font-size: 18px;
-	}
-
-	.quiz_questions_amount{
-		margin: 1rem 0;
-		font-weight: bold;
-	}
-
-	.quiz_bottom_container{
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-end;
-	}
-
 </style>
-
-{#await promiseQuizzes}
-    <div class="loading_spinner">...waiting (spinner)</div>
-{:then quizzes }
-	<div id="searchBar_container">
-		<div id="searchBar">
-			<input id="search_input" type="text" placeholder="Search for a quiz" name="search" maxlength="30" on:input={handleSearch} bind:value={search}/>
-		</div>
+<div id="searchBar_container">
+	<div id="searchBar">
+		<input id="search_input" type="text" placeholder="Search for a quiz" name="search" maxlength="30" on:input={handleSearch} bind:value={search}/>
 	</div>
 	<div id="top_bar">
 		<div id="filter_container">
@@ -157,20 +93,26 @@
 			<button class="purple_button" on:click={toCreateQuizPage}>+ Create quiz</button>
 		</div>
 	</div>
+</div>
+{#await promiseQuizzes}
+    <div class="loading_spinner">...waiting (spinner)</div>
+{:then quizzes }
 	{#if quizzes.length > 0}
-		{#each quizzes as {id, name, questionsAmount, difficulty, user_first_name, user_last_name, user_id}, i} 
-			<Quiz id={id}>
-				<div class="quiz_top_container">
-					<div class="quiz_name">{name}</div>
-					<div class="quiz_difficulty">Difficulty: {difficulty}</div>
-				</div>
-				<div class="quiz_questions_amount">{questionsAmount} Questions</div>
-				<div class="quiz_bottom_container">
-					<div class="quiz_author">created by {user_first_name} { user_last_name}</div>
-					<button class="purple_button" on:click|preventDefault={() => toQuizPage(id)}>Enter quiz</button>
-				</div>
-			</Quiz>
-		{/each}
+		<div class="quizzes">
+			{#each quizzes as {id, name, questionsAmount, difficulty, user_first_name, user_last_name, user_id}, i} 
+				<Quiz id={id}>
+					<div class="quiz_top_container">
+						<div class="quiz_name">{name}</div>
+						<div class="quiz_difficulty">Difficulty: {difficulty}</div>
+					</div>
+					<div class="quiz_questions_amount">{questionsAmount} Questions</div>
+					<div class="quiz_bottom_container">
+						<div class="quiz_author">created by {user_first_name} { user_last_name}</div>
+						<button class="purple_button" on:click|preventDefault={() => toQuizPage(id)}>Enter quiz</button>
+					</div>
+				</Quiz>
+			{/each}
+		</div>
 		{:else}
 			<div id="no_quizzes">No quizzes were found for your search</div>
 	{/if}

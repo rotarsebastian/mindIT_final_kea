@@ -21,11 +21,15 @@
 		width: 100%;
 		height: 74px;
 		border-radius: 2px;
-		box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+		/* box-shadow: 1px 1px 2px rgba(0,0,0,0.1); */
 		padding: 0.75rem;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		position: fixed;
+		top: 0;
+		z-index: 100;
+    	background: white;
 	}
 
 	#mindit_logo{

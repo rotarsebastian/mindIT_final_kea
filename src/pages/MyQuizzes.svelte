@@ -1,20 +1,137 @@
 <script>
 	import jq from "jquery";
 	import Quiz from '../components/Quiz.svelte';
+	import { curRoute } from '../routing/router.js';
 
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
+
+	let filterOptions = [
+		{ id: 0, text: `All difficulties`, value: 'unset' },
+		{ id: 1, text: `Very Easy`, value:'VeryEasy' },
+		{ id: 2, text: `Easy`, value:'Easy' },
+		{ id: 3, text: `Medium`, value:'Medium'},
+		{ id: 4, text: `Hard`, value:'Hard'},
+		{ id: 5, text: `Very Hard`, value:'VeryHard' }
+	];
+
+	let selected;
+	let search = '';
 	
+	const handleSearch = async () => {
+		let matchesQuizzes = [];
+		const searchedQuizzes = await jq.ajax({
+			type: 'GET',
+			url: basicURL + 'api-search-and-filter.php',
+			data: {
+				search: search,
+				limit: 20,
+				token: localStorage.token,
+				filter: selected.value,
+				myQuizzes: "1"
+			},
+			dataType: "json",
+			success: (matches) => {
+				matchesQuizzes = matches;
+			}
+		});
+		promiseQuizzes = matchesQuizzes;
+	}
+
+	const getInitialData = async () => {
+		const limit = 20;
+		const quizzesArray = await jq.ajax({
+			type: 'GET',
+			url: basicURL + `api-get-user-quizzes.php?limit=${limit}`,
+			dataType: "json",
+			data: {
+				token: localStorage.token
+			},
+			success: (data) => {
+				return data;
+			}
+		});
+		if (quizzesArray) {
+			return quizzesArray;
+		} else {
+			throw new Error();
+		}
+	}
+
+	let promiseQuizzes = getInitialData();
+
+	function toCreateQuizPage(){
+		curRoute.set('/create-quiz');
+		window.history.pushState({path: '/create-quiz'}, '', window.location.origin + '/create-quiz');
+	}
+
+	function toQuizPage(quiz_id){
+		console.log(quiz_id)
+	}
+
 </script>
 
 <style>
-	.loading_spinner{
-		width: 100vw;
-		height: 100vh;
-		text-align: center;
-		line-height: 80vh;
+	.purple_button, .orange_button {
+		width: 10rem;
 	}
-</style>
 
-<div>My quizzes page</div>
+	.purple_button{
+		margin-right: .5rem;
+	}
+
+</style>
+	<div id="searchBar_container">
+		<div id="searchBar">
+			<input id="search_input" type="text" placeholder="Search for a quiz" name="search" maxlength="30" on:input={handleSearch} bind:value={search}/>
+		</div>
+		<div id="top_bar">
+			<div id="filter_container">
+				<img src="./assets/images/filter_icon.svg" id="filter_icon" alt="filter_icon"/>
+				<select bind:value={selected} on:change={handleSearch}>
+					{#each filterOptions as difficulty}
+						<option value={difficulty}>
+							{difficulty.text}
+						</option>
+					{/each}
+				</select>
+			</div>
+
+			<div id="create_quiz">
+				<button class="purple_button" on:click={toCreateQuizPage}>+ Create quiz</button>
+			</div>
+		</div>
+
+	</div>
+
+{#await promiseQuizzes}
+    <div class="loading_spinner">...waiting (spinner)</div>
+{:then quizzes }
+	{#if quizzes.length > 0}
+		<div class="quizzes">
+			{#each quizzes as {id, name, createdAt, questionsAmount, difficulty, user_first_name, user_last_name, user_id}, i} 
+				<Quiz id={id}>
+					<div class="quiz_top_container">
+						<div class="quiz_name">{name}</div>
+						<div class="quiz_difficulty">Difficulty: {difficulty}</div>
+					</div>
+					<div class="quiz_questions_amount">{questionsAmount} Questions</div>
+					<div class="quiz_bottom_container">
+						<div class="quiz_author">created by {user_first_name} { user_last_name}</div>
+						<div class="buttons_container">
+							<button class="purple_button" on:click|preventDefault={() => toQuizPage(id)}>Edit quiz</button>
+							<button class="orange_button" on:click|preventDefault={() => toQuizPage(id)}>Delete quiz</button>
+						</div>
+					</div>
+				</Quiz>
+			{/each}
+		</div>
+		{:else}
+			<div id="no_quizzes">No quizzes were found for your search</div>
+		
+	{/if}
+{:catch error}
+    <p style="color: red">{error.message}</p>
+{/await}
+
 
 
