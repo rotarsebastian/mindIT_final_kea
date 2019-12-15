@@ -1,9 +1,16 @@
 <script>
     import jq from "jquery";
+    import toastr from "toastr";
+    import { curRoute } from '../routing/router.js';
 
+    toastr.options = {
+        "positionClass": "toast-bottom-right",
+    }
     const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 
     export let quizID;
+
+    let correctAnswers, wrongAnswers, questions, percentage;
     
     const getQuestions = async () => {
 		const quiz = await jq.ajax({
@@ -28,9 +35,67 @@
     const promiseQuestions = getQuestions();
     
     function checkQuiz(){
-        promiseQuestions.then((questions) => {
-            console.log(questions);
-        })
+        promiseQuestions.then((quiz) => {
+            const isFormValid = validateInputs();
+            if(!isFormValid) {
+                return;
+            }
+            let userAnswers = [];
+            quiz.questions.forEach(question => {
+                const userAnswer = jq(`#${question.questionID}`).val();
+                let questionObject = {};
+                questionObject.questionID = question.questionID;
+                questionObject.questionUserAnswer = userAnswer;
+                userAnswers.push(questionObject);
+            });
+            jq.ajax({
+                type: 'GET',
+                url: basicURL + 'api-check-answered-quiz.php',
+                dataType: "json",
+                data: {
+                    id: quizID,
+                    questions: JSON.stringify(userAnswers),
+                    token: localStorage.token
+                },
+                success: (response) => {
+                    console.log(response);
+                    if(response.message === 'user completed quiz before'){
+                        toastr.error('You cannot complete the same quiz twice');
+                        curRoute.set('/home');
+		                window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
+                    } else {
+                        correctAnswers = response.correctAnswers.length;
+                        wrongAnswers = response.wrongAnswers.length;
+                        questions = correctAnswers + wrongAnswers;
+                        percentage = correctAnswers * 100 / questions;
+                        jq('.purple_button').hide();
+                        jq('.results').show();
+
+                        response.correctAnswers.forEach(correctAnswer => {
+                            jq(`#${correctAnswer.id}`).addClass('success');
+                        });
+                    }
+                },
+                error: error => {
+                    console.log(error);
+                }
+            });
+        });
+    }
+
+    function validateInputs() {
+        const inputs = jq('.question_container input');
+        let formIsValid = true;
+        inputs.each((index, input) => {
+            if(input.value === ''){
+                input.classList.add('error');
+                formIsValid = false;
+            }
+        });
+        inputs.focus((event) => {
+            event.target.classList.remove('error');
+        });
+        return formIsValid;
     }
 
 </script>
@@ -61,19 +126,31 @@
         width: 100%;
         margin: 1rem 0;
     }
+
+    .results{
+        display: none;
+    }
+
 </style>
 
 {#await promiseQuestions}
     <div class="loading_spinner">...waiting (spinner)</div>
 {:then quiz}
-	{#each quiz.questions as question, i} 
-        <div class="question_container">
-            <div class="question_title">Question {i + 1}</div>
-            <div class="question_content">{question.questionContent}</div>
-            <input class="question_answer" type="text" placeholder="Enter your answer here">
-        </div>
-    {/each}
-    <button class="purple_button" on:click={checkQuiz}>Submit</button>
+    <div class="content">
+        {#each quiz.questions as question, i} 
+            <div class="question_container">
+                <div class="question_title">Question {i + 1}</div>
+                <div class="question_content">{question.questionContent}</div>
+                <input id={question.questionID} class="question_answer" type="text" placeholder="Enter your answer here">
+            </div>
+        {/each}
+        <button class="purple_button" on:click={checkQuiz}>Submit</button>
+    </div>
+    <div class="results">
+        <div class="result_title">Results</div>
+        <div class="raport">You answered correct {correctAnswers} out of {questions} questions!</div>
+        <div class="score">Percentage of right answers: {percentage}%</div>
+    </div>
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}

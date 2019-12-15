@@ -1,6 +1,6 @@
 <script>
 	import jq from "jquery";
-	import Questions from "../components/Questions.svelte";
+    import Questions from "../components/Questions.svelte";
 
     const urlParams = new URLSearchParams(window.location.search);
     const quiz_id = urlParams.get('id');
