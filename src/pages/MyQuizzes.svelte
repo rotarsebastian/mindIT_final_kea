@@ -64,8 +64,10 @@
 		window.history.pushState({path: '/create-quiz'}, '', window.location.origin + '/create-quiz');
 	}
 
-	function toQuizPage(quiz_id){
-		console.log(quiz_id)
+	function toEditPage(quiz_id){
+		curRoute.set('/edit-quiz');
+		const quizPage = '/edit-quiz?id=' + quiz_id;
+		window.history.pushState({path: '/edit-quiz'}, '', window.location.origin + quizPage);
 	}
 
 </script>
@@ -117,8 +119,8 @@
 					<div class="quiz_bottom_container">
 						<div class="quiz_author">created by {user_first_name} { user_last_name}</div>
 						<div class="buttons_container">
-							<button class="purple_button" on:click|preventDefault={() => toQuizPage(id)}>Edit quiz</button>
-							<button class="orange_button" on:click|preventDefault={() => toQuizPage(id)}>Delete quiz</button>
+							<button class="purple_button" on:click|preventDefault={() => toEditPage(id)}>Edit quiz</button>
+							<button class="orange_button" on:click|preventDefault={() => toDeletePage(id)}>Delete quiz</button>
 						</div>
 					</div>
 				</Quiz>
