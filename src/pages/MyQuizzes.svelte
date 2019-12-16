@@ -70,6 +70,10 @@
 		window.history.pushState({path: '/edit-quiz'}, '', window.location.origin + quizPage);
 	}
 
+	function deleteQuiz(quiz_id){
+
+	}
+
 </script>
 
 <style>
@@ -120,7 +124,7 @@
 						<div class="quiz_author">created by {user_first_name} { user_last_name}</div>
 						<div class="buttons_container">
 							<button class="purple_button" on:click|preventDefault={() => toEditPage(id)}>Edit quiz</button>
-							<button class="orange_button" on:click|preventDefault={() => toDeletePage(id)}>Delete quiz</button>
+							<button class="orange_button" on:click|preventDefault={() => deleteQuiz(id)}>Delete quiz</button>
 						</div>
 					</div>
 				</Quiz>
