@@ -11,7 +11,8 @@
 		"preventDuplicates": true,
     }
 
-	let quizName = 'dada', questionValue = '', questionAnswer = '', questionDifficulty = 0, canCreateQuiz = false, difficultyChoosed = false;
+	let quizName = '', questionValue = '', questionAnswer = '', questionDifficulty = 0, canCreateQuiz = false, difficultyChoosed = false;
+
 	const difficultyLevel = [
 		{ value: 0, text: 'Select difficulty level' },
 		{ value: 1, text: 'Easy' },
@@ -39,28 +40,29 @@
 				toastr.success(`Your question has been added. Add at least ${arrayOfQuestions.length} more questions to create the quiz`);
 			}
 		}
-		// console.log(arrayOfQuestions);
 	}
 
     const createQuiz = () => {
-		jq.ajax({
-            type: "POST",
-            url: basicURL + "api-create-quiz.php",
-            dataType: "json",
-            data: {
-                name: quizName,
-				questions: JSON.stringify(arrayOfQuestions),
-				token: localStorage.token
-            },
-            success: (data) => {
-				toastr.success('Your quiz has been registered successfully');
-				curRoute.set('/home');
-				window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
-            },
-            error: () => {
-                alert("Error: Login Failed");
-            }
-        });
+		if(quizName.length > 5) {
+			jq.ajax({
+				type: "POST",
+				url: basicURL + "api-create-quiz.php",
+				dataType: "json",
+				data: {
+					name: quizName,
+					questions: JSON.stringify(arrayOfQuestions),
+					token: localStorage.token
+				},
+				success: (data) => {
+					toastr.success('Your quiz has been registered successfully');
+					curRoute.set('/home');
+					window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
+				},
+				error: () => {
+					alert("Error: Login Failed");
+				}
+			});
+		}
 	};
 	
 	const showError = (value) => {
@@ -77,7 +79,7 @@
 		padding: .5rem .2rem;
 	}
 
-	.inputElement textarea {
+	.inputElement textarea, .inputElement input {
 		resize: none;
 		outline: none;
 		width: 100%;
@@ -131,6 +133,17 @@
 
 <div class="page_content">
 	<div class="form_container">
+		<div class="wrap_input_container">
+			<div class="inputElement">
+				<label for="text">
+					Quiz name
+				</label>
+				<input id="text" bind:value={quizName} placeholder="Enter your quiz name here" />
+			</div>
+			{#if showError(quizName) }
+				<div class="error">Your quiz name is not long enough</div>
+			{/if}
+		</div>
 		<div class="wrap_input_container">
 			<div class="inputElement">
 				<label for="text">
