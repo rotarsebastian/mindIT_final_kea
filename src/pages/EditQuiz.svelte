@@ -53,15 +53,15 @@
         promiseQuiz = quizData;
     }
     
-    const createQuiz = () => {
+    const editQuiz = () => {
 		if(quizName.length > 5 && canEditQuiz) {
 			jq.ajax({
 				type: "POST",
-				url: basicURL + "api-create-quiz.php",
+				url: basicURL + "api-edit-quiz.php",
 				dataType: "json",
 				data: {
 					name: quizName,
-					questions: JSON.stringify(arrayOfQuestions),
+					questions: JSON.stringify(quizData.questions),
 					token: localStorage.token
 				},
 				success: (data) => {
@@ -87,11 +87,11 @@
 			},
 			success: (data) => {
                 quizData = data;
+                if(quizData.questions.length > 1) canEditQuiz = true;
                 return quizData;
 			}
 		});
 		if (quiz) {
-            console.log(quiz);
 			return quiz;
 		} else {
             throw new Error();
@@ -148,11 +148,12 @@
 		font-size: 20px;
 		background: transparent;
         padding: 0;
-        margin: 3rem 0;
+        margin: 1rem 0;
+        margin-top: 2rem;
 	}
 
 	.purple_button{
-		margin-top: 1.7rem;
+        margin: 1.7rem 0;
     	width: 100%;
     }
     
@@ -163,13 +164,13 @@
     }
 
 	.wrap_input_container{
-        margin-bottom: 1.15rem;
+        margin-bottom: 2rem;
     }
     
     .wrap_question{
         border: 1px solid rgba(128, 0, 128, 0.136);
         border-radius: 4px;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
         padding: 0.75rem;
     }
 </style>
@@ -273,6 +274,9 @@
         </div>
     {/if}
     <button on:click={ addQuestion } class="add_question_button">╋ &nbsp;  Add question</button>
+    {#if canEditQuiz}
+		<button on:click={ editQuiz } class="purple_button">Edit quiz</button>
+	{/if}
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}

@@ -37,7 +37,7 @@ label {
 input, button, select, textarea {
 	font-family: inherit;
 	font-size: inherit;
-	padding: 0.4em;
+	padding: 0.4em 0.7rem;
 	box-sizing: border-box;
 	border: 1px solid #ccc;
 	border-radius: 2px;
