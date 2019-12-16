@@ -32,6 +32,9 @@
 			dataType: "json",
 			success: (matches) => {
 				matchesQuizzes = matches;
+			},
+			error: error => {
+				console.log(error);
 			}
 		});
 		promiseQuizzes = matchesQuizzes;
@@ -48,6 +51,9 @@
 			},
 			success: (data) => {
 				return data;
+			},
+			error: error => {
+				console.log(error);
 			}
 		});
 		if (quizzesArray) {
@@ -71,7 +77,20 @@
 	}
 
 	function deleteQuiz(quiz_id){
-
+		jq.ajax({
+			type: 'GET',
+			url: basicURL + 'api-delete-quiz.php',
+			dataType: "json",
+			data: {
+				token: localStorage.token
+			},
+			success: (data) => {
+				console.log(data);
+			},
+			error: error => {
+				console.log(error);
+			}
+		});
 	}
 
 </script>

@@ -97,6 +97,9 @@
                 quizData.removedQuestions = [];
                 if(quizData.questions.length > 1) canEditQuiz = true;
                 return quizData;
+			},
+			error: error => {
+				console.log(error);
 			}
 		});
 		if (quiz) {

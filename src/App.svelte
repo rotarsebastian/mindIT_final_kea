@@ -57,6 +57,9 @@
 				else {
 					console.log('Error: Your request has failed.');
 				}
+			},
+			error: error => {
+				console.log(error);
 			}
         });
 	}

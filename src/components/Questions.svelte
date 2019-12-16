@@ -23,6 +23,9 @@
 			},
 			success: (data) => {
                 return data;
+			},
+			error: error => {
+				console.log(error);
 			}
 		});
 		if (quiz) {

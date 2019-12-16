@@ -31,6 +31,9 @@
 			dataType: "json",
 			success: (matches) => {
 				matchesQuizzes = matches;
+			},
+			error: error => {
+				console.log(error);
 			}
 		});
 		promiseQuizzes = matchesQuizzes;
@@ -47,6 +50,9 @@
 			},
 			success: (data) => {
 				return data;
+			},
+			error: error => {
+				console.log(error);
 			}
 		});
 		if (quizzesArray) {
