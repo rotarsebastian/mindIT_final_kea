@@ -2,6 +2,7 @@
 	import toastr from "toastr";
 	import jq from "jquery";
     import CreateQuiz from "./CreateQuiz.svelte";
+    import { curRoute } from '../routing/router.js';
 
     const urlParams = new URLSearchParams(window.location.search);
     const quiz_id = urlParams.get('id');
@@ -13,7 +14,6 @@
     }
 
     let quizData = {}, addNewQuestion = false;
-    quizData.removedQuestions = [];
 
     let questionValue = '', questionAnswer = '', questionDifficulty = 0, canEditQuiz = false, difficultyChoosed = false;
 
@@ -36,7 +36,8 @@
 				questionAnswer: questionAnswer,
 				questionDifficulty: questionDifficulty,
 			};
-			quizData.questions.push(newQuestion);
+            quizData.questions.push(newQuestion);
+            addNewQuestion = false;
 			questionValue = '', questionAnswer = '', questionDifficulty = 0;
 			if(quizData.questions.length > 1){
 				canEditQuiz = true;
@@ -50,25 +51,27 @@
     }
 
     const removeQuestion = (question_id) => {
+        console.log(quizData)
         quizData.questions = quizData.questions.filter(question => {return question.questionID !== question_id});
-        quizData.removedQuestions.push(question_id);
+        if( typeof question_id !== 'undefined') {quizData.removedQuestions.push(question_id);}
         promiseQuiz = quizData;
     }
     
     const editQuiz = () => {
-		if(quizName.length > 5 && canEditQuiz) {
+		if(quizData.quizName.length > 5 && canEditQuiz) {
 			jq.ajax({
 				type: "POST",
 				url: basicURL + "api-edit-quiz.php",
 				dataType: "json",
 				data: {
-                    name: quizName,
+                    name: quizData.quizName,
                     id: quiz_id,
 					questions: JSON.stringify(quizData.questions),
 					removedQuestions: JSON.stringify(quizData.removedQuestions),
 					token: localStorage.token
 				},
 				success: (data) => {
+                    // console.log(data);
 					toastr.success('Your quiz has been edited successfully');
 					curRoute.set('/my-quizzes');
 					window.history.pushState({path: '/my-quizzes'}, '', window.location.origin + '/my-quizzes');
@@ -91,6 +94,7 @@
 			},
 			success: (data) => {
                 quizData = data;
+                quizData.removedQuestions = [];
                 if(quizData.questions.length > 1) canEditQuiz = true;
                 return quizData;
 			}
@@ -154,6 +158,7 @@
         padding: 0;
         margin: 1rem 0;
         margin-top: 2rem;
+        cursor: pointer;
 	}
 
 	.purple_button{
@@ -278,7 +283,7 @@
         </div>
     {/if}
     <button on:click={ addQuestion } class="add_question_button">╋ &nbsp;  Add question</button>
-    {#if canEditQuiz}
+    {#if quiz.questions.length > 1 && canEditQuiz}
 		<button on:click={ editQuiz } class="purple_button">Edit quiz</button>
 	{/if}
 {:catch error}
