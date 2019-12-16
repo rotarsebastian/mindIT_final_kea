@@ -4,6 +4,7 @@
 	import { curRoute } from '../routing/router.js';
 
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
+	let myQuizzesData = [];
 
 	let filterOptions = [
 		{ id: 0, text: `All difficulties`, value: 'unset' },
@@ -18,7 +19,6 @@
 	let search = '';
 	
 	const handleSearch = async () => {
-		let matchesQuizzes = [];
 		const searchedQuizzes = await jq.ajax({
 			type: 'GET',
 			url: basicURL + 'api-search-and-filter.php',
@@ -31,13 +31,12 @@
 			},
 			dataType: "json",
 			success: (matches) => {
-				matchesQuizzes = matches;
+				promiseQuizzes = matches;
 			},
 			error: error => {
 				console.log(error);
 			}
 		});
-		promiseQuizzes = matchesQuizzes;
 	}
 
 	const getInitialData = async () => {
@@ -50,6 +49,7 @@
 				token: localStorage.token
 			},
 			success: (data) => {
+				myQuizzesData = data;
 				return data;
 			},
 			error: error => {
@@ -82,10 +82,14 @@
 			url: basicURL + 'api-delete-quiz.php',
 			dataType: "json",
 			data: {
-				token: localStorage.token
+				token: localStorage.token,
+				quizID: quiz_id
 			},
 			success: (data) => {
 				console.log(data);
+				myQuizzesData = myQuizzesData.filter(quiz => {return quiz.id !== quiz_id});
+				promiseQuizzes = myQuizzesData;
+
 			},
 			error: error => {
 				console.log(error);

@@ -15,7 +15,8 @@
 
     let quizData = {}, addNewQuestion = false;
 
-    let questionValue = '', questionAnswer = '', questionDifficulty = 0, canEditQuiz = false, difficultyChoosed = false;
+	let nameWasTouched = false, answerWasTouched = false, diffWasTouched = false, questionWasTouched = false, triedWithEmpty = false;
+    let questionValue = '', questionAnswer = '', questionDifficulty = "0", canEditQuiz = true;
 
 	const difficultyLevel = [
 		{ value: "0", text: 'Select difficulty level' },
@@ -25,28 +26,28 @@
     ];
     
     const addQuestion = () => {
-        addNewQuestion = true;
-		if (questionDifficulty === 0) {
-			difficultyChoosed = true;
-		}
-		if (questionDifficulty !== 0 && questionValue.length > 5 && questionAnswer.length > 5) {
-			difficultyChoosed = false;
+        setTimeout(() => {jq('.add_question_button')[0].scrollIntoView({ block: 'end',  behavior: 'smooth' });});
+        if(areThereErrors()) {
+            toastr.error('Please make sure all the fields are completed!');
+            return;
+        }
+		if (questionDifficulty !== "0" && questionValue.length > 1 && questionAnswer.length > 1) {
 			const newQuestion = {
 				questionContent: questionValue,
 				questionAnswer: questionAnswer,
 				questionDifficulty: questionDifficulty,
 			};
             quizData.questions.push(newQuestion);
-            addNewQuestion = false;
-			questionValue = '', questionAnswer = '', questionDifficulty = 0;
+			questionValue = '', questionAnswer = '', questionDifficulty = "0", answerWasTouched = false, diffWasTouched = false, questionWasTouched = false;
 			if(quizData.questions.length > 1){
-				canEditQuiz = true;
-				toastr.success('Your question has been added. You can create your quiz now or you can add more questions');
+				toastr.success('Your question has been added. You can edit your quiz now or you can add more questions');
 			} else {
 				toastr.success(`Your question has been added. Add at least ${quizData.questions.length} more questions to create the quiz`);
             }
             promiseQuiz = quizData;
-            console.log(quizData);
+            // console.log(quizData);
+		} else {
+			triedWithEmpty = true;
 		}
     }
 
@@ -58,7 +59,11 @@
     }
     
     const editQuiz = () => {
-		if(quizData.quizName.length > 5 && canEditQuiz) {
+        if(areThereErrors()) {
+            toastr.error('Please make sure all the fields are completed!');
+            return;
+        }
+		if(quizData.quizName.length > 1) {
 			jq.ajax({
 				type: "POST",
 				url: basicURL + "api-edit-quiz.php",
@@ -81,7 +86,14 @@
 				}
 			});
 		}
-	};
+    };
+    
+    const areThereErrors = () => { return jq('.error').length > 0 ? true : false }
+    const showAddQuestion = () => { 
+        addNewQuestion = addNewQuestion === false ? true : false;
+        addNewQuestion === true ? jq('#show_add_question_button').text('Hide new question') : jq('#show_add_question_button').text('Add a new question');
+        setTimeout(() => {jq('#show_add_question_button')[0].scrollIntoView({ block: 'end',  behavior: 'smooth' });});
+    }
     
     const getQuiz = async () => {
 		const quiz = await jq.ajax({
@@ -95,7 +107,6 @@
 			success: (data) => {
                 quizData = data;
                 quizData.removedQuestions = [];
-                if(quizData.questions.length > 1) canEditQuiz = true;
                 return quizData;
 			},
 			error: error => {
@@ -111,8 +122,20 @@
 
     let promiseQuiz = getQuiz();
     
-    const showError = (value) => {
-		if( value.length <= 5 && value.length > 0 ) {
+	const showError = (value) => {
+		if( value.length < 2 ) {
+			return true;
+		} 
+		return false;
+	}
+
+	const validateInput = (value, input) => {
+		triedWithEmpty = false;
+		if(input === 'name') {nameWasTouched = true};
+		if(input === 'question') {questionWasTouched = true};
+		if(input === 'answer') {answerWasTouched = true};
+		if(input === 'diff') {diffWasTouched = true};
+		if( value.length > 1 || (Number.isInteger(value) && value > 0) ) {
 			return true;
 		} 
 		return false;
@@ -120,13 +143,34 @@
 
 </script>
 <style>
+    .add_new_question_container{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
 
+    .wrapper{
+        height: 70vh;
+        background: white;
+        overflow: scroll;
+        padding: .7rem;
+    }
+
+    #show_add_question_button{
+        font-size: 15px;
+        color: rgba(128, 0, 128, 0.5);
+        text-decoration: underline;
+        margin-left: .1rem;
+        cursor: pointer;
+        margin-top: 1.5rem;
+    }
 	.inputElement textarea, .inputElement input {
 		resize: none;
 		outline: none;
 		width: 100%;
 		border-radius: 4px;
-	}
+    }
+    
 
 	label{
 		margin: .45rem 0;
@@ -134,7 +178,12 @@
 		font-weight: bold;
 		margin-bottom: .66rem;
     	padding-left: .25rem;
-	}
+    }
+    
+    label.quiz_name{
+        font-size: 20px;
+        color: orange;
+    }
 
 	#filter_container{
 		align-items: flex-end;
@@ -153,20 +202,26 @@
 	}
 
 	.add_question_button{
-		color: #333;
 		outline: none;
-		border: none;
-		font-size: 20px;
-		background: transparent;
-        padding: 0;
-        margin: 1rem 0;
-        margin-top: 2rem;
+        border: none;
         cursor: pointer;
+        color: white;
+        background: orange;
+        padding: 5px 18px;
+        font-size: 15px;
 	}
 
 	.purple_button{
-        margin: 1.7rem 0;
-    	width: 100%;
+        margin: 1.7rem 0.7rem;
+        width: 100%;
+        width: 20%;
+        padding: 5px 20px;
+    }
+
+    .edit_button_container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .orange_button{
@@ -176,7 +231,7 @@
     }
 
 	.wrap_input_container{
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
     }
     
     .wrap_question{
@@ -192,15 +247,16 @@
 {:then quiz}
     <div class="wrap_input_container">
         <div class="inputElement">
-            <label for="text">
+            <label for="text" class="quiz_name">
                 Quiz name
             </label>
-            <input id="text" bind:value={quizData.quizName} />
+            <input id="text" bind:value={quizData.quizName} on:input={() => validateInput(quizData.quizName, 'name')}/>
         </div>
         {#if showError(quizData.quizName) }
             <div class="error">Your quiz name is not long enough</div>
         {/if}
     </div>
+<div class="wrapper">
     {#each quiz.questions as question, i} 
     <div class="wrap_question">
         <div class="wrap_input_container">
@@ -208,7 +264,7 @@
                     <label for="text">
                         Question {i+1}
                     </label>
-                    <textarea id="text" bind:value={quiz.questions[i].questionContent} ></textarea>
+                    <textarea id="text" bind:value={quiz.questions[i].questionContent} on:input={() => validateInput(quiz.questions[i].questionContent, '')}></textarea>
                 </div>
                 {#if showError(quiz.questions[i].questionContent) }
                     <div class="error">Your question is not long enough</div>
@@ -220,7 +276,7 @@
                     <label for="lastName">
                         Correct answer
                     </label>
-                        <textarea id="lastName" bind:value={quiz.questions[i].questionAnswer} name="questionAnswer"></textarea>
+                        <textarea id="lastName" bind:value={quiz.questions[i].questionAnswer} name="questionAnswer" on:input={() => validateInput(quiz.questions[i].questionAnswer, '')}></textarea>
                 </div>
                 {#if showError(quiz.questions[i].questionAnswer) }
                     <div class="error">Your answer is not long enough</div>
@@ -230,7 +286,7 @@
             <div id="filter_container">
                 <div class="container_left_side">
                     <label for="questionDifficulty">Choose question difficulty</label>
-                    <select bind:value={quiz.questions[i].questionDifficulty} name="questionDifficulty">
+                    <select bind:value={quiz.questions[i].questionDifficulty} name="questionDifficulty" on:change={() => validateInput(quiz.questions[i].questionDifficulty, '')}>
                         {#each difficultyLevel as level}
                             <option value={level.value}>
                                 {level.text}
@@ -252,9 +308,9 @@
                     <label for="text">
                         Question
                     </label>
-                    <textarea id="text" bind:value={questionValue} placeholder="Enter your question here"></textarea>
+                    <textarea id="text" bind:value={questionValue} placeholder="Enter your question here" on:input={() => validateInput(questionValue, 'question')}></textarea>
                 </div>
-                {#if showError(questionValue) }
+                {#if (showError(questionValue) && questionWasTouched) || (showError(questionValue) && triedWithEmpty) }
                     <div class="error">Your question is not long enough</div>
                 {/if}
             </div>
@@ -264,9 +320,9 @@
                     <label for="lastName">
                         Correct answer
                     </label>
-                        <textarea id="lastName" bind:value={questionAnswer} name="questionAnswer" placeholder="Enter the correct answer here"></textarea>
+                        <textarea id="lastName" bind:value={questionAnswer} name="questionAnswer" placeholder="Enter the correct answer here" on:input={() => validateInput(questionAnswer, 'answer')}></textarea>
                 </div>
-                {#if showError(questionAnswer) }
+                {#if (showError(questionAnswer) && answerWasTouched) || (showError(questionAnswer) && triedWithEmpty) }
                     <div class="error">Your answer is not long enough</div>
                 {/if}
             </div>
@@ -274,7 +330,7 @@
             <div id="filter_container">
                 <div class="container_left_side">
                     <label for="questionDifficulty">Choose question difficulty</label>
-                    <select bind:value={questionDifficulty} name="questionDifficulty">
+                    <select bind:value={questionDifficulty} name="questionDifficulty" on:change={() => validateInput(questionDifficulty, 'diff')}>
                         {#each difficultyLevel as level}
                             <option value={level.value}>
                                 {level.text}
@@ -282,12 +338,26 @@
                         {/each}
                     </select>
                 </div>
-            </div>
+		    </div>
+
+            {#if (diffWasTouched && questionDifficulty === "0") || (triedWithEmpty && questionDifficulty === "0") }
+                <div class="error">Please select difficulty</div>
+            {/if}
+            
         </div>
     {/if}
-    <button on:click={ addQuestion } class="add_question_button">╋ &nbsp;  Add question</button>
-    {#if quiz.questions.length > 1 && canEditQuiz}
+
+    <div class="add_new_question_container">
+        <div on:click={ showAddQuestion } id="show_add_question_button">Add a new question</div>
+        {#if addNewQuestion}
+            <button on:click={ addQuestion } class="add_question_button">╋ &nbsp;  Add question</button>
+        {/if}
+    </div>
+</div>
+    {#if quiz.questions.length > 1 && canEditQuiz }
+    <div class="edit_button_container">
 		<button on:click={ editQuiz } class="purple_button">Edit quiz</button>
+    </div>
 	{/if}
 {:catch error}
 	<p style="color: red">{error.message}</p>

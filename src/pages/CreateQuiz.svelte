@@ -11,7 +11,8 @@
 		"preventDuplicates": true,
     }
 
-	let quizName = '', questionValue = '', questionAnswer = '', questionDifficulty = 0, canCreateQuiz = false, difficultyChoosed = false;
+	let nameWasTouched = false, answerWasTouched = false, diffWasTouched = false, questionWasTouched = false, triedWithEmpty = false;
+	let quizName = '', questionValue = '', questionAnswer = '', questionDifficulty = 0, canCreateQuiz = false;
 
 	const difficultyLevel = [
 		{ value: 0, text: 'Select difficulty level' },
@@ -21,29 +22,27 @@
 	];
 
 	const addQuestion = () => {
-		if (questionDifficulty === 0) {
-			difficultyChoosed = true;
-		}
-		if (questionDifficulty !== 0 && questionValue.length > 5 && questionAnswer.length > 5) {
-			difficultyChoosed = false;
+		if (questionDifficulty !== 0 && questionValue.length > 1 && questionAnswer.length > 1) {
 			const newQuestion = {
 				questionContentValue: questionValue,
 				questionAnswerValue: questionAnswer,
 				questionDifficultyValue: questionDifficulty,
 			};
 			arrayOfQuestions.push(newQuestion);
-			questionValue = '', questionAnswer = '', questionDifficulty = 0;
+			questionValue = '', questionAnswer = '', questionDifficulty = 0, answerWasTouched = false, diffWasTouched = false, questionWasTouched = false;
 			if(arrayOfQuestions.length > 1){
 				canCreateQuiz = true;
 				toastr.success('Your question has been added. You can create your quiz now or you can add more questions');
 			} else {
 				toastr.success(`Your question has been added. Add at least ${arrayOfQuestions.length} more questions to create the quiz`);
 			}
+		} else {
+			triedWithEmpty = true;
 		}
 	}
 
     const createQuiz = () => {
-		if(quizName.length > 5 && canCreateQuiz) {
+		if(quizName.length > 0 && canCreateQuiz) {
 			jq.ajax({
 				type: "POST",
 				url: basicURL + "api-create-quiz.php",
@@ -66,7 +65,19 @@
 	};
 	
 	const showError = (value) => {
-		if( value.length <= 5 && value.length > 0 ) {
+		if( value.length < 2 ) {
+			return true;
+		} 
+		return false;
+	}
+
+	const validateInput = (value, input) => {
+		triedWithEmpty = false;
+		if(input === 'name') {nameWasTouched = true};
+		if(input === 'question') {questionWasTouched = true};
+		if(input === 'answer') {answerWasTouched = true};
+		if(input === 'diff') {diffWasTouched = true};
+		if( value.length > 1 || (Number.isInteger(value) && value > 0) ) {
 			return true;
 		} 
 		return false;
@@ -138,9 +149,9 @@
 				<label for="text">
 					Quiz name
 				</label>
-				<input id="text" bind:value={quizName} placeholder="Enter your quiz name here" />
+				<input id="text" bind:value={quizName} placeholder="Enter your quiz name here" on:input={() => validateInput(quizName, 'name')} />
 			</div>
-			{#if showError(quizName) }
+			{#if (showError(quizName) && nameWasTouched) || (showError(quizName) && triedWithEmpty) }
 				<div class="error">Your quiz name is not long enough</div>
 			{/if}
 		</div>
@@ -149,9 +160,9 @@
 				<label for="text">
 					Question
 				</label>
-				<textarea id="text" bind:value={questionValue} placeholder="Enter your question here"></textarea>
+				<textarea id="text" bind:value={questionValue} placeholder="Enter your question here" on:input={() => validateInput(questionValue, 'question')}></textarea>
 			</div>
-			{#if showError(questionValue) }
+			{#if (showError(questionValue) && questionWasTouched) || (showError(questionValue) && triedWithEmpty)}
 				<div class="error">Your question is not long enough</div>
 			{/if}
 		</div>
@@ -161,9 +172,9 @@
 				<label for="lastName">
 					Correct answer
 				</label>
-					<textarea id="lastName" bind:value={questionAnswer} name="questionAnswer" placeholder="Enter the correct answer here"></textarea>
+					<textarea id="lastName" bind:value={questionAnswer} name="questionAnswer" placeholder="Enter the correct answer here" on:input={() => validateInput(questionAnswer, 'answer')}></textarea>
 			</div>
-			{#if showError(questionAnswer) }
+			{#if (showError(questionAnswer) && answerWasTouched) || (showError(questionAnswer) && triedWithEmpty) }
 				<div class="error">Your answer is not long enough</div>
 			{/if}
 		</div>
@@ -171,7 +182,7 @@
 		<div id="filter_container">
 			<div class="container_left_side">
 				<label for="questionDifficulty">Choose question difficulty</label>
-				<select bind:value={questionDifficulty} name="questionDifficulty">
+				<select bind:value={questionDifficulty} name="questionDifficulty" on:change={() => validateInput(questionDifficulty, 'diff')}>
 					{#each difficultyLevel as level}
 						<option value={level.value}>
 							{level.text}
@@ -182,7 +193,7 @@
 			<button on:click={ addQuestion } class="add_question_button">╋ &nbsp;  Add question</button>
 		</div>
 
-		{#if difficultyChoosed && questionDifficulty === 0 }
+		{#if (diffWasTouched && questionDifficulty === 0) || (triedWithEmpty && questionDifficulty === 0) }
 			<div class="error">Please select difficulty</div>
 		{/if}
 

@@ -19,7 +19,8 @@ a {
   align-items: center;
   text-decoration: none;
   color: purple;
-  padding: 1rem;
+  padding: 1rem 0;
+  padding-right: 10px;
 }
 </style>
 

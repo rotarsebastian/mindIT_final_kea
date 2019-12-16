@@ -57,7 +57,7 @@
 	}
 
 	#profile_name {
-		font-weight: bold;
+		color: purple;
 	}
 
 	.dropdown {
@@ -73,6 +73,15 @@
 		width: 100%;
 		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 		z-index: 1;
+	}
+
+	.dropdown-content .link {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		text-decoration: none;
+		color: purple;
+		font-size: 14px;
 	}
 
 	.dropdown-content .link:hover {background-color: #f1f1f1}
