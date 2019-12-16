@@ -43,7 +43,7 @@
 	}
 
     const createQuiz = () => {
-		if(quizName.length > 5) {
+		if(quizName.length > 5 && canCreateQuiz) {
 			jq.ajax({
 				type: "POST",
 				url: basicURL + "api-create-quiz.php",
