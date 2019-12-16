@@ -13,6 +13,7 @@
     }
 
     let quizData = {}, addNewQuestion = false;
+    quizData.removedQuestions = [];
 
     let questionValue = '', questionAnswer = '', questionDifficulty = 0, canEditQuiz = false, difficultyChoosed = false;
 
@@ -50,6 +51,7 @@
 
     const removeQuestion = (question_id) => {
         quizData.questions = quizData.questions.filter(question => {return question.questionID !== question_id});
+        quizData.removedQuestions.push(question_id);
         promiseQuiz = quizData;
     }
     
@@ -60,14 +62,16 @@
 				url: basicURL + "api-edit-quiz.php",
 				dataType: "json",
 				data: {
-					name: quizName,
+                    name: quizName,
+                    id: quiz_id,
 					questions: JSON.stringify(quizData.questions),
+					removedQuestions: JSON.stringify(quizData.removedQuestions),
 					token: localStorage.token
 				},
 				success: (data) => {
-					toastr.success('Your quiz has been registered successfully');
-					curRoute.set('/home');
-					window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
+					toastr.success('Your quiz has been edited successfully');
+					curRoute.set('/my-quizzes');
+					window.history.pushState({path: '/my-quizzes'}, '', window.location.origin + '/my-quizzes');
 				},
 				error: () => {
 					alert("Error: Login Failed");
