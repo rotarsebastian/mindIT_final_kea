@@ -80,33 +80,32 @@
 	}
 
 </style>
-	<div id="searchBar_container">
-		<div id="searchBar">
-			<input id="search_input" type="text" placeholder="Search for a quiz" name="search" maxlength="30" on:input={handleSearch} bind:value={search}/>
-		</div>
-		<div id="top_bar">
-			<div id="filter_container">
-				<img src="./assets/images/filter_icon.svg" id="filter_icon" alt="filter_icon"/>
-				<select bind:value={selected} on:change={handleSearch}>
-					{#each filterOptions as difficulty}
-						<option value={difficulty}>
-							{difficulty.text}
-						</option>
-					{/each}
-				</select>
-			</div>
-
-			<div id="create_quiz">
-				<button class="purple_button" on:click={toCreateQuizPage}>+ Create quiz</button>
-			</div>
-		</div>
-
-	</div>
 
 {#await promiseQuizzes}
     <div class="loading_spinner">...waiting (spinner)</div>
 {:then quizzes }
-	{#if quizzes.length > 0}
+		<div id="searchBar_container">
+			<div id="searchBar">
+				<input id="search_input" type="text" placeholder="Search for a quiz" name="search" maxlength="30" on:input={handleSearch} bind:value={search}/>
+			</div>
+			<div id="top_bar">
+				<div id="filter_container">
+					<img src="./assets/images/filter_icon.svg" id="filter_icon" alt="filter_icon"/>
+					<select bind:value={selected} on:change={handleSearch}>
+						{#each filterOptions as difficulty}
+							<option value={difficulty}>
+								{difficulty.text}
+							</option>
+						{/each}
+					</select>
+				</div>
+
+				<div id="create_quiz">
+					<button class="purple_button" on:click={toCreateQuizPage}>+ Create quiz</button>
+				</div>
+			</div>
+		</div>
+		{#if quizzes.length > 0}
 		<div class="quizzes">
 			{#each quizzes as {id, name, createdAt, questionsAmount, difficulty, user_first_name, user_last_name, user_id}, i} 
 				<Quiz id={id}>
