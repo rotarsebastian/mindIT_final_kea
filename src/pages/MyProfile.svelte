@@ -4,12 +4,10 @@
     import { curRoute } from '../routing/router.js';
 
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
-	let userData = {}
+	let userData = {};
 
 	let firstNameWasTouched = false, lastNameWasTouched = false, usernameWasTouched = false, passwordWasTouched = false, addressWasTouched = false,
 		postalCodeWasTouched = false, phoneWasTouched = false, cityWasTouched = false, triedWithEmpty = false;
-
-	// let canEditUser = false;
 
     toastr.options = {
 		"positionClass": "toast-bottom-right",
@@ -25,11 +23,16 @@
 				token: localStorage.token
 			},
 			success: (data) => {
-				console.log(data);
 				userData = data;
 				userData.password = '';
+				const primaryCardArray = userData.creditCards.filter((card) => { return card.isPrimary === 1} );
+				userData.primaryCard = primaryCardArray[0];
+				userData.primaryCard.number = userData.primaryCard.number.replace(/(\d{4})/g, '$1 ').replace(/(^\s+|\s+$)/,'');
+				userData.primaryCard.number = userData.primaryCard.number.replace(/^.{14}/g, '**** **** ****');
+				delete userData.creditCards;
 				if(userData.phone === '0'){userData.phone = ''};
 				if(userData.postalCode === '0'){userData.postalCode = ''};
+				console.log(userData);
                 return userData;
 			},
 			error: error => {
@@ -93,6 +96,11 @@
 		return isValid;
 	}
 
+	const toEditCards = () => {
+		curRoute.set('/edit-cards');
+		window.history.pushState({path: '/edit-cards'}, '', window.location.origin + '/edit-cards');
+	}
+
 </script>
 
 <style>
@@ -117,8 +125,34 @@
 }
 
 .wrap_input_container{
-	border: 1px solid black;
+	height: 110px;
+	padding: 10px;
 }
+
+.wrap_buttons{
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-top: 13px;
+}
+
+.edit_card_button{
+	background: transparent;
+    border: 1px solid #8000808a;
+    color: #8000808a;
+}
+
+.edit_card_button:hover{
+	background: purple;
+	color: white;
+}
+
+.purple_button, .orange_button{
+	width: 100%;
+	padding: 0.4em 0.7rem;
+}
+
 </style>
 
 {#await promiseUser}
@@ -197,6 +231,19 @@
 						<div class="error">Your postal code is not not valid</div>
 					{/if}
 				</div>
+				<div class="wrap_input_container">
+					<div class="inputElement">
+						<label for="text">
+							Primary credit card
+						</label>
+						<input class="readonly_input" type="text" bind:value={user.primaryCard.number} readonly />
+					</div>
+				</div>
+				<div class="wrap_input_container">
+					<div class="wrap_buttons">
+						<button class="purple_button">Edit profile</button>
+					</div>
+				</div>
 			</div>
 			<div class='column'>
 				<div class="wrap_input_container">
@@ -220,6 +267,16 @@
 					{#if (!(validateInput(user.city, 'city')) && cityWasTouched) || (!(validateInput(user.city, 'city')) && triedWithEmpty) }
 						<div class="error">Your city is not long enough</div>
 					{/if}
+				</div>
+				<div class="wrap_input_container">
+					<div class="wrap_buttons">
+						<button class="purple_button edit_card_button" on:click={toEditCards}>Edit cards</button>
+					</div>
+				</div>
+				<div class="wrap_input_container">
+					<div class="wrap_buttons">
+						<button class="orange_button">Delete profile</button>
+					</div>
 				</div>
 			</div>
 		</div>

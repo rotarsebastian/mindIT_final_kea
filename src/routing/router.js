@@ -4,6 +4,7 @@ import AnswerQuiz from '../pages/AnswerQuiz.svelte';
 import EditQuiz from '../pages/EditQuiz.svelte';
 import Login from '../pages/Login.svelte';
 import MyProfile from '../pages/MyProfile.svelte';
+import EditCards from '../pages/EditCards.svelte';
 import MyQuizzes from '../pages/MyQuizzes.svelte';
 import Logout from '../pages/Logout.svelte';
 
@@ -16,6 +17,7 @@ const router = {
     '/quiz': AnswerQuiz,
     '/edit-quiz': EditQuiz,
     '/my-profile': MyProfile,
+    '/edit-cards': EditCards,
     '/my-quizzes': MyQuizzes,
     '/logout': Logout,
     '/login': Login

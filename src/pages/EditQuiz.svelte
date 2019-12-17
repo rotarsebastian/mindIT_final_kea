@@ -152,7 +152,7 @@
     .wrapper{
         height: 70vh;
         background: white;
-        overflow: scroll;
+        overflow-y: scroll;
         padding: .7rem;
     }
 

@@ -54,10 +54,37 @@ input, button, select, textarea {
 	outline: none;
 	width: 100%;
 	border-radius: 4px;
+	color: #6d6d6d;
+	border: 1px solid #80008047;
+}
+
+.inputElement textarea:focus, .inputElement input:focus {
+	border: 1px solid purple;
+}
+
+::placeholder {
+	color: rgba(167, 167, 167, 0.507);
+	opacity: 1; /* Firefox */
+}
+  
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+	color: rgba(167, 167, 167, 0.507);
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+	color: rgba(167, 167, 167, 0.507);
 }
 
 input:disabled {
 	color: #ccc;
+}
+
+.readonly_input{
+	background: #ececec99;	
+}
+
+.readonly_input:focus{
+	border: 1px solid #80008047 !important;
 }
 
 input[type="range"] {
@@ -81,7 +108,7 @@ button {
 }
 
 .error {
-	color: red;
+	color: orange;
 	font-size: 0.7rem;
 	margin: .5rem 0;
 	margin-top: .25rem;
