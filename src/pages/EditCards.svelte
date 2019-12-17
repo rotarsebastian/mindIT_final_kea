@@ -6,7 +6,12 @@
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
     let cardsData = {};
 
-    let cardNumberWasTouched = false, expDateWasTouched = false, CVVWasTouched = false, triedWithEmpty = false;
+    toastr.options = {
+		"positionClass": "toast-bottom-right",
+		"preventDuplicates": true,
+    }
+
+    let somethingWasTouched = false, cardNumberWasTouched = false, expDateWasTouched = false, CVVWasTouched = false, triedWithEmpty = false;
 
 	const getUserCards = async () => {
 		const cards = await jq.ajax({
@@ -38,7 +43,10 @@
     
     let promiseCards = getUserCards();
 
+    const areThereErrors = () => { return jq('.error').length > 0 ? true : false }
+
     const setFirstTouched = (input) => {
+        somethingWasTouched = true;
 		if(input === 'cardNumber') {cardNumberWasTouched = true};
 		if(input === 'expDate') {expDateWasTouched = true};
 		if(input === 'CVV') {CVVWasTouched = true};
@@ -49,7 +57,7 @@
 		triedWithEmpty = false;
 		switch(input) {
 			case 'cardNumber':
-				isValid = (elmValue.replace(/ /g,'').length === 16 && /^\d+$/.test(elmValue)) ? true : false;
+				isValid = (elmValue.replace(/ /g,'').length === 16 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
 				break;
 			case 'expDate':
 				isValid = (elmValue.replace(/ /g,'').length === 7 && /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/.test(elmValue.replace(/ /g,''))) ? true : false;
@@ -64,8 +72,41 @@
 		return isValid;
     }
     
-    const toEditCard = (card_id) => {
+    const toEditCard = (card_id, card_expDate, CVV) => {
+         if(areThereErrors()) {
+            toastr.error('Please make sure all the fields are completed and valid!');
+            return;
+        }
+		if(validateInput(card_expDate, 'expDate') && validateInput(CVV, 'CVV') && somethingWasTouched) {
+            const card_expMonth = card_expDate.split('/')[0];
+            const card_expYear = card_expDate.split('/')[1];
+			jq.ajax({
+				type: "POST",
+				url: basicURL + "api-edit-credit-card.php",
+				dataType: "json",
+				data: {
+                    card_id: card_id,
+                    card_expMonth: card_expMonth,
+                    card_expYear: card_expYear,
+                    card_CVV: CVV,
+					token: localStorage.token
+				},
+				success: (data) => {
+                    console.log(data);
+					toastr.success('Your card has been edited successfully');
+					// curRoute.set('/my-quizzes');
+					// window.history.pushState({path: '/my-quizzes'}, '', window.location.origin + '/my-quizzes');
+				},
+				error: (err) => {
+					console.log(err);
+				}
+			});
+		}
+    }
 
+    const toAddCreditCardPage = () => {
+        curRoute.set('/add-card');
+		window.history.pushState({path: '/add-card'}, '', window.location.origin + '/add-card');
     }
 
 </script>
@@ -91,6 +132,7 @@ input{
 .row {
     border-radius: 10px;
     border: 1px solid rgba(128, 0, 128, 0.322);
+    margin-bottom: 1rem;
 }
 
 .purple_button, .orange_button {
@@ -98,6 +140,24 @@ input{
 }
 .wrap_input_container{
     height: auto;
+}
+
+.add_card_button_container{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+
+#add_card_button{
+    font-size: 17px;
+    margin-left: .1rem;
+    cursor: pointer;
+    background: transparent;
+    border: none; 
+    color: rgba(128, 0, 128, 0.5);
+    text-decoration: underline;
+    margin: 1.5rem 0;
 }
 </style>
 
@@ -134,7 +194,7 @@ input{
                     </div>
                     <div class="wrap_input_container">
                         <div class="wrap_buttons_edit_cards">
-                            <button class="purple_button edit_card_button" on:click={toEditCard}>Edit card</button>
+                            <button class="purple_button edit_card_button" on:click={() => toEditCard(card.id, card.expDate, card.CVV)}>Edit card</button>
                         </div>
 				    </div>
                 </div>
@@ -159,9 +219,12 @@ input{
 		    </div>
         </div>
         {#if card.isPrimary === 1}
-            <div class="primary_card">This card is your primary card</div>
+            <div class="primary_card">This card is your primary card. Only payments from this card will be made!</div>
         {/if}
         {/each}
+    </div>
+    <div class="add_card_button_container">
+        <button id="add_card_button" on:click={toAddCreditCardPage}>Add new card</button>
     </div>  
 {:catch error}
 	<p style="color: red">{error.message}</p>

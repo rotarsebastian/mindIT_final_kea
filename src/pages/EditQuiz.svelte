@@ -149,12 +149,6 @@
         align-items: flex-end;
     }
 
-    .wrapper{
-        height: 70vh;
-        background: white;
-        overflow-y: scroll;
-        padding: .7rem;
-    }
 
     #show_add_question_button{
         font-size: 15px;
@@ -163,6 +157,12 @@
         margin-left: .1rem;
         cursor: pointer;
         margin-top: 1.5rem;
+    }
+    .wrapper{
+        height: 70vh;
+        background: white;
+        overflow-y: scroll;
+        padding: .7rem;
     }
 	.inputElement textarea, .inputElement input {
 		resize: none;
