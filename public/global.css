@@ -115,6 +115,39 @@ button {
 	padding: 0 .25rem;
 }
 
+.page_wrapper{
+	display: flex;
+	margin: 0;
+	padding: 0;
+}
+  
+.row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+	flex-basis: 100%;
+	flex: 1;
+}
+
+.wrap_input_container{
+	height: 110px;
+	padding: 10px;
+}
+
+.wrap_buttons{
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-top: 13px;
+}
+
 .orange_button {
 	color: white;
 	background: orange;

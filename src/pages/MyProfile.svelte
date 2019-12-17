@@ -48,8 +48,6 @@
 
 	let promiseUser = getUserDetails();
 	
-	const areThereErrors = () => { return jq('.error').length > 0 ? true : false }
-
 	const setFirstTouched = (input) => {
 		if(input === 'firstName') {firstNameWasTouched = true};
 		if(input === 'lastName') {lastNameWasTouched = true};
@@ -72,7 +70,7 @@
 				isValid = elmValue.length > 1;
 				break;
 			case 'username':
-				isValid = elmValue.length > 1;
+				isValid = elmValue.replace(/ /g,'').length > 1;
 				break;
 			case 'password':
 				isValid = elmValue.length > 5;
@@ -81,10 +79,10 @@
 				isValid = elmValue.length > 1;
 				break;
 			case 'postalCode':
-				isValid = (elmValue.length === 4 && /^\d+$/.test(elmValue)) ? true : false;
+				isValid = (elmValue.replace(/ /g,'').length === 4 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
 				break;
 			case 'phone':
-				isValid = (elmValue.length === 8) ? true : false;
+				isValid = (elmValue.replace(/ /g,'').length === 8) ? true : false;
 				break;
 			case 'city':
 				isValid = elmValue.length > 1;
@@ -104,39 +102,6 @@
 </script>
 
 <style>
-.page_wrapper{
-  display: flex;
-  margin: 0;
-  padding: 0;
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-  flex-basis: 100%;
-  flex: 1;
-}
-
-.wrap_input_container{
-	height: 110px;
-	padding: 10px;
-}
-
-.wrap_buttons{
-	display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    margin-top: 13px;
-}
-
 .edit_card_button{
 	background: transparent;
     border: 1px solid #8000808a;
