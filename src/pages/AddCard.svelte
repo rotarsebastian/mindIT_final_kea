@@ -40,7 +40,7 @@
 				isValid = (elmValue.replace(/ /g,'').length === 16 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
 				break;
 			case 'expDate':
-				isValid = (elmValue.replace(/ /g,'').length === 7 && /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/.test(elmValue.replace(/ /g,''))) ? true : false;
+				isValid = (elmValue.replace(/ /g,'').length === 7 && /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/.test(elmValue.replace(/ /g,'')) && parseInt(elmValue.replace(/ /g,'').split('/')[1]) >= new Date().getFullYear());
 				break;
 			case 'CVV':
 				isValid = (elmValue.replace(/ /g,'').length === 3 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;

@@ -8,7 +8,7 @@
 
     toastr.options = {
 		"positionClass": "toast-bottom-right",
-		"preventDuplicates": true,
+		"preventDuplicates": false,
     }
 
     let somethingWasTouched = false, cardNumberWasTouched = false, expDateWasTouched = false, CVVWasTouched = false, triedWithEmpty = false;
@@ -60,7 +60,7 @@
 				isValid = (elmValue.replace(/ /g,'').length === 16 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
 				break;
 			case 'expDate':
-				isValid = (elmValue.replace(/ /g,'').length === 7 && /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/.test(elmValue.replace(/ /g,''))) ? true : false;
+				isValid = (elmValue.replace(/ /g,'').length === 7 && /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/.test(elmValue.replace(/ /g,'')) && parseInt(elmValue.replace(/ /g,'').split('/')[1]) >= new Date().getFullYear());
 				break;
 			case 'CVV':
 				isValid = (elmValue.replace(/ /g,'').length === 3 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
@@ -73,7 +73,7 @@
     }
     
     const toEditCard = (card_id, card_expDate, CVV) => {
-         if(areThereErrors()) {
+        if(areThereErrors()) {
             toastr.error('Please make sure all the fields are completed and valid!');
             return;
         }
@@ -94,8 +94,6 @@
 				success: (data) => {
                     console.log(data);
 					toastr.success('Your card has been edited successfully');
-					// curRoute.set('/my-quizzes');
-					// window.history.pushState({path: '/my-quizzes'}, '', window.location.origin + '/my-quizzes');
 				},
 				error: (err) => {
 					console.log(err);
@@ -109,56 +107,88 @@
 		window.history.pushState({path: '/add-card'}, '', window.location.origin + '/add-card');
     }
 
+    const changePrimaryCard = (card_id) => {
+        jq.ajax({
+				type: "GET",
+				url: basicURL + "api-set-primary-card.php",
+				dataType: "json",
+				data: {
+					cardID: card_id,
+				    token: localStorage.token
+                },
+				success: (data) => {
+					cardsData.forEach((card) => { card.isPrimary = 0 });
+                    const filteredData = cardsData.filter((card) => {return card.id === card_id});
+                    filteredData[0].isPrimary = 1;
+                    cardsData.sort((a, b) => parseFloat(b.isPrimary) - parseFloat(a.isPrimary));
+                    promiseCards = cardsData;
+                    toastr.success('Primary card updated successfully');
+				},
+				error: (error) => {
+				    console.log(error);
+				}
+			});
+    }
+
 </script>
 
 <style>
-.primary_card{
-    color: green;
-    margin-top: .35rem;
-    padding-left: .3rem;
-    font-size: 13px;
-    margin-bottom: 1.4rem;
-}
+    .primary_card{
+        color: green;
+        margin-top: .35rem;
+        padding-left: .3rem;
+        font-size: 13px;
+        margin-bottom: 1.4rem;
+    }
 
-input{
-    width: auto;
-}
+    input{
+        width: auto;
+    }
 
-.primary{
-    background: rgba(13, 119, 13, 0.137);
-    border: none;
-}
+    .primary{
+        background: rgba(13, 119, 13, 0.137);
+        border: none;
+    }
 
-.row {
-    border-radius: 10px;
-    border: 1px solid rgba(128, 0, 128, 0.322);
-    margin-bottom: 1rem;
-}
+    .row {
+        border-radius: 10px;
+        border: 1px solid rgba(128, 0, 128, 0.322);
+        margin-bottom: 1rem;
+    }
 
-.purple_button, .orange_button {
-    width: 90%;
-}
-.wrap_input_container{
-    height: auto;
-}
+    .purple_button, .orange_button {
+        width: 90%;
+    }
+    .wrap_input_container{
+        height: auto;
+    }
 
-.add_card_button_container{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
+    .add_card_button_container{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
 
+    #add_card_button{
+        font-size: 17px;
+        margin-left: .1rem;
+        cursor: pointer;
+        background: transparent;
+        border: none; 
+        color: rgba(128, 0, 128, 0.5);
+        text-decoration: underline;
+        margin: 1.5rem 0;
+    }
 
-#add_card_button{
-    font-size: 17px;
-    margin-left: .1rem;
-    cursor: pointer;
-    background: transparent;
-    border: none; 
-    color: rgba(128, 0, 128, 0.5);
-    text-decoration: underline;
-    margin: 1.5rem 0;
-}
+    .set_card_primary_button{
+        background: transparent;
+        color: orange;
+    }
+
+    .set_card_primary_button:hover{
+        background: purple;
+        color: white;
+    }
 </style>
 
 {#await promiseCards}
@@ -179,6 +209,13 @@ input{
                             <input class="readonly_input card_number" type="text" bind:value={card.number} readonly />
                         </div>
                     </div>
+                    {#if card.isPrimary !== 1}
+                        <div class="wrap_input_container">
+                            <div class="wrap_buttons_edit_cards">
+                                <button class="orange_button set_card_primary_button" on:click={() => changePrimaryCard(card.id)}>Set as primary card</button>
+                            </div>
+                        </div>
+                    {/if}
                 </div>
                 <div class='column'>
                     <div class="wrap_input_container">
@@ -214,7 +251,7 @@ input{
                         <div class="wrap_buttons_edit_cards">
                             <button class="orange_button">Delete card</button>
                         </div>
-				</div>
+				    </div>
                 </div>
 		    </div>
         </div>
