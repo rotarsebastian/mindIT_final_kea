@@ -60,7 +60,7 @@
 				isValid = (elmValue.replace(/ /g,'').length === 16 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
 				break;
 			case 'expDate':
-				isValid = (elmValue.replace(/ /g,'').length === 7 && /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/.test(elmValue.replace(/ /g,'')) && parseInt(elmValue.replace(/ /g,'').split('/')[1]) >= new Date().getFullYear());
+				isValid = (elmValue.replace(/ /g,'').length === 7 && /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/.test(elmValue.replace(/ /g,'')) );
 				break;
 			case 'CVV':
 				isValid = (elmValue.replace(/ /g,'').length === 3 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
@@ -75,6 +75,10 @@
     const toEditCard = (card_id, card_expDate, CVV) => {
         if(areThereErrors()) {
             toastr.error('Please make sure all the fields are completed and valid!');
+            return;
+        }
+        if(!(parseInt(card_expDate.replace(/ /g,'').split('/')[1]) >= new Date().getFullYear())){
+            toastr.error('Your card is expired! Please use a calid card');
             return;
         }
 		if(validateInput(card_expDate, 'expDate') && validateInput(CVV, 'CVV') && somethingWasTouched) {
@@ -109,25 +113,45 @@
 
     const changePrimaryCard = (card_id) => {
         jq.ajax({
-				type: "GET",
-				url: basicURL + "api-set-primary-card.php",
-				dataType: "json",
-				data: {
-					cardID: card_id,
-				    token: localStorage.token
-                },
-				success: (data) => {
-					cardsData.forEach((card) => { card.isPrimary = 0 });
-                    const filteredData = cardsData.filter((card) => {return card.id === card_id});
-                    filteredData[0].isPrimary = 1;
-                    cardsData.sort((a, b) => parseFloat(b.isPrimary) - parseFloat(a.isPrimary));
-                    promiseCards = cardsData;
-                    toastr.success('Primary card updated successfully');
-				},
-				error: (error) => {
-				    console.log(error);
-				}
-			});
+            type: "GET",
+            url: basicURL + "api-set-primary-card.php",
+            dataType: "json",
+            data: {
+                cardID: card_id,
+                token: localStorage.token
+            },
+            success: (data) => {
+                cardsData.forEach((card) => { card.isPrimary = 0 });
+                const filteredData = cardsData.filter((card) => {return card.id === card_id});
+                filteredData[0].isPrimary = 1;
+                cardsData.sort((a, b) => parseFloat(b.isPrimary) - parseFloat(a.isPrimary));
+                promiseCards = cardsData;
+                toastr.success('Primary card updated successfully');
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    }
+
+    const deleteCard = (card_id) => {
+        jq.ajax({
+            type: "GET",
+            url: basicURL + "api-delete-credit-card.php",
+            dataType: "json",
+            data: {
+                cardID: card_id,
+                token: localStorage.token
+            },
+            success: (data) => {
+                toastr.success('Card deleted successfully');
+                cardsData = cardsData.filter((card) => {return card.id !== card_id});
+                promiseCards = cardsData;
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
     }
 
 </script>
@@ -247,11 +271,13 @@
                             <div class="error">Your credit card CVV is not not valid (ex. 865)</div>
                         {/if}
                     </div>
-                    <div class="wrap_input_container">
-                        <div class="wrap_buttons_edit_cards">
-                            <button class="orange_button">Delete card</button>
+                    {#if card.isPrimary !== 1}
+                        <div class="wrap_input_container">
+                            <div class="wrap_buttons_edit_cards">
+                                <button class="orange_button" on:click={() => deleteCard(card.id)}>Delete card</button>
+                            </div>
                         </div>
-				    </div>
+                    {/if}
                 </div>
 		    </div>
         </div>

@@ -113,17 +113,16 @@
 </script>
 <style>
   	.form_container {
-		width: 100vw;
-	}
-
-	.error {
-		color: red;
-		font-size: 0.7rem;
-    	margin: .5rem 0;
-	}
+		width: 30%;
+    }
+    
+    .page_content{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
 </style>
-
-<h1>This is Login page</h1>
 
 <div class="page_content">
 	<div class="form_container">
@@ -147,12 +146,7 @@
 			<div class="error">Not long enough</div>
 		{/if}
 
-        <!-- <button on:click={ login }>Login</button> -->
-        <button id="myLogin" on:click={ login }>My login</button>
-        <!-- <button id="goodLogin">Login</button>
-        <button id="test">Test</button>
-        <button id="badLogin">Bad Login</button> -->
-        <button id="logout">Logout</button>
+        <button id="myLogin" on:click={ login }>Login</button>
 	</div>
 </div>
 

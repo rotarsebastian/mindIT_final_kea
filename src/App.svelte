@@ -7,11 +7,6 @@
 	let showHeader = true;
 
 	onMount(async () => {
-		if(!localStorage.token){
-			curRoute.set('/login');
-			window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
-			return false;
-		}
 		await promiseCheckUser;
 		if(window.location.pathname === '/login' || window.location.pathname === '/signup') {
 			if(allowUser) {
@@ -20,16 +15,21 @@
 				window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
 			} else {
 				curRoute.set(window.location.pathname);
-				window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
+				window.history.pushState({path: window.location.pathname}, '', window.location.origin + window.location.pathname);
 				showHeader = false;
 			}
 		}
 		if(!allowUser) {
-			curRoute.set('/login');
-			window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
-			showHeader = false;
+			if(window.location.pathname === '/login' || window.location.pathname === '/signup'){
+				curRoute.set(window.location.pathname);
+				window.history.pushState({path: window.location.pathname}, '', window.location.origin + window.location.pathname);
+				showHeader = false;
+			} else {
+				curRoute.set('/login');
+				window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
+				showHeader = false;
+			}
 		}
-		curRoute.set(window.location.pathname);
 		if (!history.state) {
 			window.history.replaceState({path: window.location.pathname}, '',   window.location.href)
 		}

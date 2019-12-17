@@ -8,6 +8,7 @@ import EditCards from '../pages/EditCards.svelte';
 import AddCard from '../pages/AddCard.svelte';
 import MyQuizzes from '../pages/MyQuizzes.svelte';
 import Logout from '../pages/Logout.svelte';
+import Signup from '../pages/Signup.svelte';
 
 import { writable } from 'svelte/store';
 
@@ -22,7 +23,8 @@ const router = {
     '/add-card': AddCard,
     '/my-quizzes': MyQuizzes,
     '/logout': Logout,
-    '/login': Login
+    '/login': Login,
+    '/sign-up': Signup
 }
 export default router;
 
