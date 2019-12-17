@@ -30,8 +30,13 @@ a:visited {
 	color: rgb(0,80,160);
 }
 
-label {
+label{
 	display: block;
+	margin: .45rem 0;
+	color: purple;
+	font-weight: bold;
+	margin-bottom: .66rem;
+	padding-left: .25rem;
 }
 
 input, button, select, textarea {
@@ -42,6 +47,13 @@ input, button, select, textarea {
 	border: 1px solid #ccc;
 	border-radius: 2px;
 	outline: none;
+}
+
+.inputElement textarea, .inputElement input {
+	resize: none;
+	outline: none;
+	width: 100%;
+	border-radius: 4px;
 }
 
 input:disabled {
@@ -68,6 +80,14 @@ button {
 	cursor: pointer;
 }
 
+.error {
+	color: red;
+	font-size: 0.7rem;
+	margin: .5rem 0;
+	margin-top: .25rem;
+	padding: 0 .25rem;
+}
+
 .orange_button {
 	color: white;
 	background: orange;
@@ -76,6 +96,12 @@ button {
 	padding: 10px 20px;
 	border-radius: 4px;
 	cursor: pointer;
+}
+
+.page_title{
+	font-size: 27px;
+	font-weight: bold;
+	margin-bottom: 2rem;
 }
 
 button{

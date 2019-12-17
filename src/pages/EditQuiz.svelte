@@ -1,7 +1,6 @@
 <script>
 	import toastr from "toastr";
 	import jq from "jquery";
-    import CreateQuiz from "./CreateQuiz.svelte";
     import { curRoute } from '../routing/router.js';
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -89,6 +88,7 @@
     };
     
     const areThereErrors = () => { return jq('.error').length > 0 ? true : false }
+
     const showAddQuestion = () => { 
         addNewQuestion = addNewQuestion === false ? true : false;
         addNewQuestion === true ? jq('#show_add_question_button').text('Hide new question') : jq('#show_add_question_button').text('Add a new question');
@@ -250,7 +250,7 @@
             <label for="text" class="quiz_name">
                 Quiz name
             </label>
-            <input id="text" bind:value={quizData.quizName} on:input={() => validateInput(quizData.quizName, 'name')}/>
+            <input type="text" bind:value={quizData.quizName} on:input={() => validateInput(quizData.quizName, 'name')}/>
         </div>
         {#if showError(quizData.quizName) }
             <div class="error">Your quiz name is not long enough</div>
@@ -264,7 +264,7 @@
                     <label for="text">
                         Question {i+1}
                     </label>
-                    <textarea id="text" bind:value={quiz.questions[i].questionContent} on:input={() => validateInput(quiz.questions[i].questionContent, '')}></textarea>
+                    <textarea type="text" bind:value={quiz.questions[i].questionContent} on:input={() => validateInput(quiz.questions[i].questionContent, '')}></textarea>
                 </div>
                 {#if showError(quiz.questions[i].questionContent) }
                     <div class="error">Your question is not long enough</div>
@@ -308,7 +308,7 @@
                     <label for="text">
                         Question
                     </label>
-                    <textarea id="text" bind:value={questionValue} placeholder="Enter your question here" on:input={() => validateInput(questionValue, 'question')}></textarea>
+                    <textarea type="text" bind:value={questionValue} placeholder="Enter your question here" on:input={() => validateInput(questionValue, 'question')}></textarea>
                 </div>
                 {#if (showError(questionValue) && questionWasTouched) || (showError(questionValue) && triedWithEmpty) }
                     <div class="error">Your question is not long enough</div>

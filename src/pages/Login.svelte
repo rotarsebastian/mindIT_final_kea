@@ -131,7 +131,7 @@
 			<label for="text">
 				Username or email
 			</label>
-			<input id="text" bind:value={user_emailOrUsername} />
+			<input type="text" bind:value={user_emailOrUsername} />
 		</div>
 		{#if showError(user_emailOrUsername) }
 			<div class="error">Not long enough</div>

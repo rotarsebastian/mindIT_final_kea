@@ -89,36 +89,12 @@
 		width: 100%;
 		padding: .5rem .2rem;
 	}
-
-	.inputElement textarea, .inputElement input {
-		resize: none;
-		outline: none;
-		width: 100%;
-		border-radius: 4px;
-	}
-
-	label{
-		margin: .45rem 0;
-		color: purple;
-		font-weight: bold;
-		margin-bottom: .66rem;
-    	padding-left: .25rem;
-	}
-
 	#filter_container{
 		align-items: flex-end;
 	}
 
 	#filter_container select{
 		width: 195px;
-	}
-
-	.error {
-		color: red;
-		font-size: 0.7rem;
-		margin: .5rem 0;
-		margin-top: .25rem;
-		padding: 0 .25rem;
 	}
 
 	.add_question_button{
@@ -149,7 +125,7 @@
 				<label for="text">
 					Quiz name
 				</label>
-				<input id="text" bind:value={quizName} placeholder="Enter your quiz name here" on:input={() => validateInput(quizName, 'name')} />
+				<input type="text" bind:value={quizName} placeholder="Enter your quiz name here" on:input={() => validateInput(quizName, 'name')} />
 			</div>
 			{#if (showError(quizName) && nameWasTouched) || (showError(quizName) && triedWithEmpty) }
 				<div class="error">Your quiz name is not long enough</div>
@@ -160,7 +136,7 @@
 				<label for="text">
 					Question
 				</label>
-				<textarea id="text" bind:value={questionValue} placeholder="Enter your question here" on:input={() => validateInput(questionValue, 'question')}></textarea>
+				<textarea type="text" bind:value={questionValue} placeholder="Enter your question here" on:input={() => validateInput(questionValue, 'question')}></textarea>
 			</div>
 			{#if (showError(questionValue) && questionWasTouched) || (showError(questionValue) && triedWithEmpty)}
 				<div class="error">Your question is not long enough</div>
