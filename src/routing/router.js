@@ -24,7 +24,7 @@ const router = {
     '/my-quizzes': MyQuizzes,
     '/logout': Logout,
     '/login': Login,
-    '/sign-up': Signup
+    '/signup': Signup
 }
 export default router;
 

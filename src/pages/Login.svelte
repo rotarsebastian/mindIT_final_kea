@@ -1,84 +1,13 @@
 <script>
     import jq from "jquery";
+	import toastr from "toastr";
     import { curRoute } from '../routing/router.js';
 
+	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 
-    const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
-
-	let user_emailOrUsername = 'admin_sebi', user_password = 'sebi1234';
-
-    jq(document).ready(function() {
-        // jq('#test').click(function() {
-        //     jq.ajax({
-        //         type: 'GET',
-        //         url: basicURL + "app_client.php",
-        //         dataType: "json",
-        //         data: {
-        //             token: localStorage.token
-        //         },
-        //         success: function(data) {
-        //             console.log(data);
-        //             if (typeof data['userID'] !== 'undefined') {
-        //                 var alertMessage = 'You have a valid token! Here is your user Id: ' + data['userID'];
-        //                 if (typeof data['exp'] !== 'undefined') {
-        //                     alertMessage = alertMessage + ' and your token expires: ' + data['exp'];
-        //                 }
-        //                 alert(alertMessage);
-        //             } 
-        //             else if (typeof data['error'] !== 'undefined') {
-        //                 alert('Error: ' + data['error']);
-        //             }
-        //             else {
-        //                 alert('Error: Your request has failed.');
-        //             }
-        //         }
-        //     });
-        // });
-        // jq('#goodLogin').click(function() {
-        //     jq.ajax({
-        //         type: "POST",
-        //         url: basicURL + "app_client.php",
-        //         dataType: "json",
-        //         data: {
-        //             username: "john.doe",
-        //             password: "foobar"
-        //         },
-        //         success: function(data) {
-        //         localStorage.token = data['token'];
-        //         alert('Successfully retrieved token from the server! Token: ' + data['token']);
-        //         },
-        //         error: function() {
-        //             alert("Error: Login Failed");
-        //         }
-        //     });
-        // });
-        
-        // jq('#badLogin').click(function() {
-        //     jq.ajax({
-        //         type: "POST",
-        //         url: basicURL + "app_client.php",
-        //         dataType: "json",
-        //         data: {
-        //         username: "john.doe",
-        //         password: "foobarfoobar"
-        //         },
-        //         success: function(data) {
-        //             if (typeof data['error'] !== 'undefined') {
-        //                 alert('Error: ' + data['error']);
-        //                 localStorage.clear();
-        //             }
-        //         },
-        //         error: function() {
-        //         alert('Error: Your request has failed.');
-        //         }
-        //     });
-        // });
-        jq('#logout').click(function() {
-            localStorage.clear();
-        });
-     });
-
+    let user_emailOrUsername = 'admin_sebi', user_password = 'sebi1234';
     
+    let smthWasTouched = false,  passwordWasTouched = false, usernameWasTouched = false, triedWithEmpty = false;
     
     const login = () => {
         jq.ajax({
@@ -102,51 +31,140 @@
             }
         });
     };
-	
-	const showError = (value) => {
-		if( value.length <= 5 && value.length > 0 ) {
-			return true;
-		} 
-		return false;
+    
+    toastr.options = {
+		"positionClass": "toast-bottom-right",
+		"preventDuplicates": true,
+    }
+
+    const swichToSignupPage = () => {
+        curRoute.set('/signup');
+        window.history.pushState({path: '/signup'}, '', window.location.origin + '/signup');
+    }
+    
+    const setFirstTouched = (input) => {
+		smthWasTouched = true;
+		if(input === 'username') {usernameWasTouched = true};
+		if(input === 'password') {passwordWasTouched = true};
 	}
+
+	const validateInput = (elmValue, input) => {
+		let isValid = false;
+		triedWithEmpty = false;
+		switch(input) {
+			case 'username':
+				isValid = elmValue.replace(/ /g,'').length > 1;
+				break;
+			case 'password':
+				isValid = elmValue.length > 5;
+                break;
+			default:
+				console.log(`VALIDATION FAILED: no validation for: ${input}`);
+				break;
+		}
+		return isValid;
+	}
+
+	const areThereErrors = () => { return jq('.error').length > 0 ? true : false }
 
 </script>
 <style>
-  	.form_container {
-		width: 30%;
+  .purple_button{
+        width: 100%;
+        padding: 0.4em 0.7rem;
     }
-    
-    .page_content{
+
+    .swichToSignupPage_container{
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+    }
+
+    #swichToSignupPage{
+        background: transparent;
+        border: none;
+        color: #80008082;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .form_wrapper{
+        width: 65%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .wrap_input_container {
+        height: 90px;
+    }
+
+    .logo_wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 3rem;
     }
 </style>
 
-<div class="page_content">
-	<div class="form_container">
-		<div class="inputElement">
-			<label for="text">
-				Username or email
-			</label>
-			<input type="text" bind:value={user_emailOrUsername} />
-		</div>
-		{#if showError(user_emailOrUsername) }
-			<div class="error">Not long enough</div>
-		{/if}
+<div class="form_wrapper">
 
-		<div class="inputElement">
-			<label for="lastName">
-				Password
-			</label>
-				<input id="lastName" bind:value={user_password} name="password" />
+    <div class="logo_wrapper">
+        <img src="./assets/images/mindit_logo.svg" id="mindit_logo" alt="mindit_logo"/>
+    </div>
+	
+	<div class='page_wrapper'>
+		<div class='row'>
+			<div class='column'>
+				<div class="wrap_input_container">
+					<div class="inputElement">
+						<label for="text">
+							Email or username
+						</label>
+						<input type="text" bind:value={user_emailOrUsername} placeholder="Email or username" on:input={() => setFirstTouched('username')} />
+					</div>
+					{#if (!(validateInput(user_emailOrUsername, 'username')) && usernameWasTouched) || (!(validateInput(user_emailOrUsername, 'username')) && triedWithEmpty) }
+						<div class="error">Your username or email is not long enough</div>
+					{/if}
+				</div>
+				
+				
+			</div>
 		</div>
-		{#if showError(user_password) }
-			<div class="error">Not long enough</div>
-		{/if}
-
-        <button id="myLogin" on:click={ login }>Login</button>
 	</div>
+
+    <div class="page_wrapper">
+        <div class="row">
+            <div class="column">
+                <div class="wrap_input_container">
+					<div class="inputElement">
+						<label for="text">
+							Password
+						</label>
+						<input type="text" bind:value={user_password} placeholder="Last name" on:input={() => setFirstTouched('password')} />
+					</div>
+					{#if (!(validateInput(user_password, 'password')) && passwordWasTouched) || (!(validateInput(user_password, 'password')) && triedWithEmpty) }
+						<div class="error">Your password is not long enough</div>
+					{/if}
+				</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrap_input_container">
+        <div class="wrap_buttons">
+            <button class="purple_button" on:click={login}>Login</button>
+        </div>
+    </div>
+
+    <div class="swichToSignupPage_container">
+        <button id="swichToSignupPage" on:click={swichToSignupPage}>Switch to signup page</button>
+    </div>  
+
+
 </div>
+
+
 
