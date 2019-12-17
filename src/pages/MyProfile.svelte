@@ -6,7 +6,7 @@
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 	let userData = {};
 
-	let firstNameWasTouched = false, lastNameWasTouched = false, usernameWasTouched = false, passwordWasTouched = false, addressWasTouched = false,
+	let smthWasTouched = false, firstNameWasTouched = false, lastNameWasTouched = false, usernameWasTouched = false, passwordWasTouched = false, addressWasTouched = false,
 		postalCodeWasTouched = false, phoneWasTouched = false, cityWasTouched = false, triedWithEmpty = false;
 
     toastr.options = {
@@ -24,7 +24,6 @@
 			},
 			success: (data) => {
 				userData = data;
-				userData.password = '';
 				const primaryCardArray = userData.creditCards.filter((card) => { return card.isPrimary === 1} );
 				userData.primaryCard = primaryCardArray[0];
 				userData.primaryCard.number = userData.primaryCard.number.replace(/(\d{4})/g, '$1 ').replace(/(^\s+|\s+$)/,'');
@@ -49,6 +48,7 @@
 	let promiseUser = getUserDetails();
 	
 	const setFirstTouched = (input) => {
+		smthWasTouched = true;
 		if(input === 'firstName') {firstNameWasTouched = true};
 		if(input === 'lastName') {lastNameWasTouched = true};
 		if(input === 'username') {usernameWasTouched = true};
@@ -98,6 +98,47 @@
 		curRoute.set('/edit-cards');
 		window.history.pushState({path: '/edit-cards'}, '', window.location.origin + '/edit-cards');
 	}
+
+	const areThereErrors = () => { return jq('.error').length > 0 ? true : false }
+
+	const editProfile = () => {
+        if(areThereErrors()) {
+            toastr.error('Please make sure all the fields are completed and valid!');
+            return;
+		}
+
+		//REMOVE EMPTY KEYS
+		const userDataForRequest = Object.assign({}, userData);
+		Object.keys(userDataForRequest).forEach((key) => (userDataForRequest[key] == '') && delete userDataForRequest[key]);
+
+		if(smthWasTouched) {
+			jq.ajax({
+				type: "POST",
+				url: basicURL + "api-edit-user-profile.php",
+				dataType: "json",
+				data: {
+                    user_firstName: userDataForRequest.firstName,
+                    user_lastName: userDataForRequest.lastName,
+                    user_username: userDataForRequest.username,
+                    user_password: userDataForRequest.password,
+                    user_address: userDataForRequest.address,
+                    user_phoneNumber: userDataForRequest.phone,
+                    user_postalCode: userDataForRequest.postalCode,
+                    user_city: userDataForRequest.city,
+					token: localStorage.token
+				},
+				success: (data) => {
+					console.log(data);
+					toastr.success('Your user has been edited successfully');
+					// curRoute.set('/my-quizzes');
+					// window.history.pushState({path: '/my-quizzes'}, '', window.location.origin + '/my-quizzes');
+				},
+				error: (err) => {
+					console.log(err);
+				}
+			});
+		}
+    };
 
 </script>
 
@@ -206,7 +247,7 @@
 				</div>
 				<div class="wrap_input_container">
 					<div class="wrap_buttons">
-						<button class="purple_button">Edit profile</button>
+						<button class="purple_button" on:click={editProfile}>Edit profile</button>
 					</div>
 				</div>
 			</div>
