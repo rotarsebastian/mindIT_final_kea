@@ -83,6 +83,9 @@
 			case 'phone':
 				isValid = (elmValue.length === 8) ? true : false;
 				break;
+			case 'city':
+				isValid = elmValue.length > 1;
+				break;
 			default:
 				console.log(`VALIDATION FAILED: no validation for: ${input}`);
 				break;
