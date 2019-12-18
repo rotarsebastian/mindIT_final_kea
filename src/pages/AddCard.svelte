@@ -119,7 +119,7 @@
     }
 
     .set_primary_card_container span{
-        color: orange;
+        color: #E59967;
     }
 
     .purple_button{

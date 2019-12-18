@@ -208,7 +208,7 @@
 
     .set_card_primary_button{
         background: transparent;
-        color: orange;
+        color: #E59967;
     }
 
     .set_card_primary_button:hover{

@@ -191,7 +191,7 @@
     
     label.quiz_name{
         font-size: 20px;
-        color: orange;
+        color: #E57E39;;
     }
 
 	#filter_container{
@@ -202,20 +202,12 @@
 		width: 195px;
 	}
 
-	.error {
-		color: red;
-		font-size: 0.7rem;
-		margin: .5rem 0;
-		margin-top: .25rem;
-		padding: 0 .25rem;
-	}
-
 	.add_question_button{
 		outline: none;
         border: none;
         cursor: pointer;
         color: white;
-        background: orange;
+        background: #E57E39;;
         padding: 5px 18px;
         font-size: 15px;
 	}
@@ -236,7 +228,7 @@
     .orange_button{
         margin-top: 1.7rem;
         padding: 0.3rem .95rem;
-        background: orange;
+        background: #E57E39;
     }
 
 	.wrap_input_container{
