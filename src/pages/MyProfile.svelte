@@ -8,7 +8,7 @@
 		if(localStorage.getItem('token') === null){
 			curRoute.set('/login');
 			window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
-			location.reload();
+			// location.reload();
 		}
 	})
 

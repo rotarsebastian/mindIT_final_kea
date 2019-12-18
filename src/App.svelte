@@ -14,7 +14,7 @@
 
 	onMount(async () => {
 		await promiseCheckUser;
-		if(window.location.pathname === '/login' || window.location.pathname === '/signup') {
+		if(window.location.pathname.includes('/login') || window.location.pathname.includes('/signup')) {
 			if(allowUser) {
 				showHeader = true;
 				curRoute.set('/home');
@@ -26,7 +26,7 @@
 			}
 		}
 		if(!allowUser) {
-			if(window.location.pathname === '/login' || window.location.pathname === '/signup'){
+			if(window.location.pathname.includes('/login') || window.location.pathname.includes('/signup')){
 				curRoute.set(window.location.pathname);
 				window.history.pushState({path: window.location.pathname}, '', window.location.origin + window.location.pathname);
 				showHeader = false;
