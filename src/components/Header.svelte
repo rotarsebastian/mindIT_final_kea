@@ -44,6 +44,7 @@
 	#profile_name{
 		margin-bottom: 7px;
 		font-size: 15px;
+		text-transform: capitalize;
 	}
 
 
