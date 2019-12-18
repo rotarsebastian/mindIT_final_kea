@@ -108,6 +108,38 @@
 		margin-right: .5rem;
 	}
 
+	 /* LARGE TABLETS */
+	@media (max-width: 1024px) {
+
+	}
+
+	/* TABLETS */
+	@media (max-width: 768px) {
+		.buttons_container{
+			width: 10rem;
+		}
+
+		.buttons_container .purple_button{
+			margin-bottom: 0.5rem;
+		}
+
+		.quiz_bottom_container .quiz_author{
+			width: 13rem;
+		}
+
+	}
+
+	/* MOBILE */
+	@media (max-width: 414px) {
+		#searchBar_container{
+			top: 3rem;
+			z-index: 1;
+		}
+		#searchBar_container #searchBar{
+			display: none;
+		}
+	}
+
 </style>
 
 {#await promiseQuizzes}

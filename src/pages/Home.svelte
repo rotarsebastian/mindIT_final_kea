@@ -79,6 +79,26 @@
 </script>
 
 <style>
+/* LARGE TABLETS */
+	@media (max-width: 1024px) {
+
+	}
+
+	/* TABLETS */
+	@media (max-width: 768px) {
+
+	}
+
+	/* MOBILE */
+	@media (max-width: 414px) {
+		#searchBar_container{
+			top: 3rem;
+			z-index: 1;
+		}
+		#searchBar_container #searchBar{
+			display: none;
+		}
+	}
 </style>
 
 {#await promiseQuizzes}

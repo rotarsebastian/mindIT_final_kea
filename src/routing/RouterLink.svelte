@@ -18,7 +18,7 @@ function redirectTo(event){
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    color: purple;
+    color: #9345D8;
     padding: 1rem 0;
     width: 100%;
   }

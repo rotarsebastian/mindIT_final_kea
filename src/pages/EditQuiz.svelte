@@ -161,7 +161,7 @@
 
     #show_add_question_button{
         font-size: 15px;
-        color: rgba(128, 0, 128, 0.5);
+        color: rgba(147, 69, 216, 0.445);
         text-decoration: underline;
         margin-left: .1rem;
         cursor: pointer;
@@ -183,7 +183,7 @@
 
 	label{
 		margin: .45rem 0;
-		color: purple;
+		color: #9345D8;
 		font-weight: bold;
 		margin-bottom: .66rem;
     	padding-left: .25rem;

@@ -126,7 +126,7 @@
     }
 
     .question_title{
-        color: purple;
+        color: #9345D8;
         font-weight: bold;
     }
 

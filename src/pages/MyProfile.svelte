@@ -34,6 +34,7 @@
 				token: localStorage.token
 			},
 			success: (data) => {
+				console.log(data)
 				userData = data;
 				const primaryCardArray = userData.creditCards.filter((card) => { return card.isPrimary === 1} );
 				userData.primaryCard = primaryCardArray[0];
@@ -279,7 +280,7 @@
 				<div class="wrap_input_container">
 					<div class="inputElement">
 						<label for="text">
-							Primary credit card
+							Primary card
 						</label>
 						<input class="readonly_input" type="text" bind:value={user.primaryCard.number} readonly />
 					</div>

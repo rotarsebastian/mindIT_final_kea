@@ -126,6 +126,26 @@
         width: 100%;
         width: 24.5%;
     }
+
+      /* LARGE TABLETS */
+	@media (max-width: 1024px) {
+
+	}
+
+	/* TABLETS */
+	@media (max-width: 768px) {
+        .purple_button{
+            width: 34.5%;
+        }
+	}
+
+	/* MOBILE */
+	@media (max-width: 414px) {
+         .purple_button{
+            width: 55.5%;
+        }
+	
+	}
 </style>
 
 <div class="page_title">Add new credit card</div>

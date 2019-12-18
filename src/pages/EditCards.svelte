@@ -216,6 +216,25 @@
         background: #9E5BD8;
         color: white;
     }
+
+    /* LARGE TABLETS */
+	@media (max-width: 1024px) {
+
+	}
+
+	/* TABLETS */
+	@media (max-width: 768px) {
+        .set_card_primary_button{
+            padding: 0;
+            font-size: 14px;
+        }
+	}
+
+	/* MOBILE */
+	@media (max-width: 414px) {
+
+	}
+
 </style>
 
 {#await promiseCards}

@@ -32,12 +32,6 @@
     	background: white;
 	}
 
-	#mindit_logo{
-		height: 80%;
-		cursor: pointer;
-		margin-left: 1rem;
-	}
-
 	#profile_container{
 		display: flex;
 		justify-content: space-between;
@@ -52,12 +46,13 @@
 		font-size: 15px;
 	}
 
+
 	#mindit_user{
 		width: 74%;
 	}
 
 	#profile_name {
-		color: purple;
+		color: #9345D8;
 	}
 
 	.dropdown {
@@ -70,7 +65,7 @@
 		display: none;
 		position: absolute;
 		background-color: #f9f9f9;
-		width: 100%;
+		width: 7.5rem;
 		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 		z-index: 1;
 	}
@@ -80,7 +75,7 @@
 		justify-content: flex-end;
 		align-items: center;
 		text-decoration: none;
-		color: purple;
+		color: #9345D8;
 		font-size: 14px;
 	}
 
@@ -89,6 +84,30 @@
 	.dropdown:hover .dropdown-content {
 		display: block;
 	}
+
+	/* LARGE TABLETS */
+	@media (max-width: 1024px) {
+
+	}
+
+	/* TABLETS */
+	@media (max-width: 768px) {
+
+	}
+
+	/* MOBILE */
+	@media (max-width: 414px) {
+		#profile_container{
+			margin-right: 0;
+			
+		}
+
+		.dropdown-content{
+			right: -1rem;
+		}
+
+	}
+
 
 
 </style>
