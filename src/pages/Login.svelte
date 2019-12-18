@@ -19,7 +19,7 @@
                 user_password: user_password
             },
             success: function(data) {
-                // console.log(data)
+                // console.log(data);
                 if(data.status === 1){
                     localStorage.token = data['token'];
                     localStorage.userName = data['userName'];
