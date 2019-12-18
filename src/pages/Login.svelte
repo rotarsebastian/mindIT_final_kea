@@ -75,7 +75,7 @@
 
 </script>
 <style>
-  .purple_button{
+    .purple_button{
         width: 100%;
         padding: 0.4em 0.7rem;
     }
@@ -113,6 +113,39 @@
         align-items: center;
         margin-bottom: 3rem;
     }
+
+    /* LARGE TABLETS */
+    @media (max-width: 1024px) {
+        .form_wrapper{
+            width: 65%;
+        }
+    }
+
+    /* TABLETS */
+    @media (max-width: 768px) {
+        .form_wrapper{
+            width: 80%;
+        }
+    }
+
+    /* LARGE MOBILES */
+    @media (max-width: 414px) {
+        .form_wrapper{
+            width: 90%;
+        }
+    }
+
+    /* SMALL MOBILES */
+    @media (max-width: 414px) {
+        .form_wrapper{
+            width: 95%;
+        }
+
+        .logo_wrapper img {
+            width: 70%;
+        }
+    }
+        
 </style>
 
 <div class="form_wrapper">

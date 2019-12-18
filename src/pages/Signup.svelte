@@ -186,6 +186,21 @@
         margin-bottom: 3rem;
     }
 
+    /* TABLETS */
+    @media (max-width: 768px) {
+        .form_wrapper{
+            width: 80%;
+        }
+    }
+
+    /* MOBILE */
+    @media (max-width: 414px) {
+        .form_wrapper{
+            width: 90%;
+        }
+    }
+
+
 </style>
 
 <div class="form_wrapper">
