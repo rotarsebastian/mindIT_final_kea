@@ -115,7 +115,9 @@
 
 	.purple_button{
 		margin-top: 1.7rem;
-    	width: 100%;
+		width: 100%;
+		width: 24.5%;
+    	margin-left: .2rem;
 	}
 
 	.wrap_input_container{

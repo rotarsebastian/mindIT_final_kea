@@ -49,6 +49,7 @@
 				token: localStorage.token
 			},
 			success: (data) => {
+				console.log(data);
 				return data;
 			},
 			error: error => {

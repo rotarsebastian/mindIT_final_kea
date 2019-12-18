@@ -75,6 +75,13 @@
 
 </script>
 <style>
+   .background{
+        background: #eeeeee78;
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+    }
     .purple_button{
         width: 100%;
         padding: 0.4em 0.7rem;
@@ -90,9 +97,17 @@
     #swichToSignupPage{
         background: transparent;
         border: none;
-        color: #80008082;
+        color: black;
         font-size: 15px;
+    }
+
+    #swichToSignupPage span{
         cursor: pointer;
+        color: #80008082;
+    }
+
+    .wrap_buttons{
+        margin-top: 0;
     }
 
     .form_wrapper{
@@ -101,6 +116,10 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        background: white;
+        padding: 3rem 2rem;
+        border-radius: 4px;
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
     }
 
     .wrap_input_container {
@@ -111,7 +130,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 3rem;
+        margin-bottom: .19rem;
     }
 
     /* LARGE TABLETS */
@@ -148,11 +167,15 @@
         
 </style>
 
+<div class="background"></div>
+
 <div class="form_wrapper">
 
     <div class="logo_wrapper">
         <img src="./assets/images/mindit_logo.svg" id="mindit_logo" alt="mindit_logo"/>
     </div>
+
+    <div class="motto">Get into the quiz arena!</div>
 	
 	<div class='page_wrapper'>
 		<div class='row'>
@@ -182,7 +205,7 @@
 						<label for="text">
 							Password
 						</label>
-						<input type="password" bind:value={user_password} placeholder="Last name" on:input={() => setFirstTouched('password')} />
+						<input type="password" bind:value={user_password} placeholder="Password" on:input={() => setFirstTouched('password')} />
 					</div>
 					{#if (!(validateInput(user_password, 'password')) && passwordWasTouched) || (!(validateInput(user_password, 'password')) && triedWithEmpty) }
 						<div class="error">More than 5 characters!</div>
@@ -199,7 +222,7 @@
     </div>
 
     <div class="swichToSignupPage_container">
-        <button id="swichToSignupPage" on:click={swichToSignupPage}>Switch to signup page</button>
+        <button id="swichToSignupPage">Don't have an account yet? <span on:click={swichToSignupPage}> Sign up now</span></button>
     </div>  
 
 

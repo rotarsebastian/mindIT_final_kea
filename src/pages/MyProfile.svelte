@@ -183,18 +183,19 @@
 <style>
 	.edit_card_button{
 		background: transparent;
-		border: 1px solid #8000808a;
-		color: #8000808a;
+		border: 1px solid #9E5BD8;
+		color: #9E5BD8;
 	}
 
 	.edit_card_button:hover{
-		background: purple;
+		background: #9E5BD8;
 		color: white;
 	}
 
 	.purple_button, .orange_button{
 		width: 100%;
 		padding: 0.4em 0.7rem;
+		margin-top: -15px;
 	}
 
 </style>

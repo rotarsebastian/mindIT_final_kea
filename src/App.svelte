@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import jq from "jquery";
 
-	let showHeader = true;
+	let showHeader = true, isAdmin = false;
 
 	onMount(async () => {
 		await promiseCheckUser;
@@ -51,6 +51,8 @@
 			},
 			success: (data) => {
 				if (typeof data['userID'] !== 'undefined') {
+					const userString = 'administrator040e2b167b33b';
+					isAdmin = data['userID'].indexOf(userString) !== -1 ? true : false;
 					var alertMessage = 'You have a valid token! Here is your user Id: ' + data['userID'];
 					console.log(alertMessage);
 					allowUser = true;
@@ -61,6 +63,23 @@
 				else {
 					console.log('Error: Your request has failed.');
 				}
+			},
+			error: error => {
+				console.log(error);
+			}
+        });
+	}
+
+	const retrievePayments = () => {
+		jq.ajax({
+			type: 'GET',
+			url: basicURL + "api-create-payment-procedure.php",
+			dataType: "json",
+			data: {
+				token: localStorage.token
+			},
+			success: (data) => {
+				console.log(data);
 			},
 			error: error => {
 				console.log(error);
@@ -79,11 +98,25 @@
 <!-- ****************************************************** -->
 
 <style>
-#pageContent{
-	width: 100%;
-	padding: 0 18%;
-	margin-top: 6rem;
-}
+	#pageContent{
+		width: 100%;
+		padding: 0 18%;
+		margin-top: 6rem;
+	}
+
+	.retrieve_payments{
+		position: fixed;
+		bottom: 1.5rem;
+		right: 1.5rem;
+		background: #E57E39;
+		color: white;
+		border: none;
+		cursor: pointer;
+	}
+
+	.retrieve_payments:hover{
+		opacity: .69;
+	}
 </style>
 <!-- ****************************************************** -->
 <!-- ************************HTML************************** -->
@@ -93,6 +126,9 @@
 {#if allowUser }
 	{#if showHeader}
 		<Header></Header>
+	{/if}
+	{#if isAdmin}
+		<button class="retrieve_payments" on:click={retrievePayments}>Retrieve payments</button>
 	{/if}
 	<div id="pageContent">
 		<!-- Page component updates here -->

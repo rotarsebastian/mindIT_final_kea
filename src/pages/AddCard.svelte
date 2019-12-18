@@ -124,6 +124,7 @@
 
     .purple_button{
         width: 100%;
+        width: 24.5%;
     }
 </style>
 

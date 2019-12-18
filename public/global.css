@@ -30,11 +30,17 @@ a:visited {
 	color: rgb(0,80,160);
 }
 
+.motto{
+	color: #e57e39;
+    padding: 1rem;
+    text-align: center;
+	font-size: 19px;
+}
+
 label{
 	display: block;
 	margin: 0;
-	color: purple;
-	font-weight: bold;
+	color: #9345D8;
 	margin-bottom: .66rem;
 	padding-left: .25rem;
 }
@@ -55,11 +61,11 @@ input, button, select, textarea {
 	width: 100%;
 	border-radius: 4px;
 	color: #6d6d6d;
-	border: 1px solid #80008047;
+	border: 1px solid #af7fd84d;
 }
 
 .inputElement textarea:focus, .inputElement input:focus {
-	border: 1px solid purple;
+	border: 1px solid #af7fd8;
 }
 
 ::placeholder {
@@ -112,7 +118,7 @@ button {
 }
 
 .error {
-	color: orange;
+	color: #E57E39;
 	font-size: 0.7rem;
 	margin: .5rem 0;
 	margin-top: .25rem;
@@ -170,6 +176,7 @@ button {
 	font-size: 27px;
 	font-weight: bold;
 	margin-bottom: 2rem;
+	font-family: 'Montserrat', sans-serif;
 }
 
 button{

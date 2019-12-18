@@ -78,7 +78,7 @@
             return;
         }
         if(!(parseInt(card_expDate.replace(/ /g,'').split('/')[1]) >= new Date().getFullYear())){
-            toastr.error('Your card is expired! Please use a calid card');
+            toastr.error('Your card is expired! Please use a valid card');
             return;
         }
 		if(validateInput(card_expDate, 'expDate') && validateInput(CVV, 'CVV') && somethingWasTouched) {
@@ -169,6 +169,7 @@
 
     input{
         width: auto;
+        width: 90%;
     }
 
     .primary{
@@ -212,7 +213,7 @@
     }
 
     .set_card_primary_button:hover{
-        background: purple;
+        background: #9E5BD8;
         color: white;
     }
 </style>

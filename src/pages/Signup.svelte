@@ -139,6 +139,13 @@
 </script>
 
 <style>
+    .background{
+        background: #eeeeee78;
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+    }
     .purple_button{
         width: 100%;
         padding: 0.4em 0.7rem;
@@ -160,15 +167,20 @@
     }
 
     .form_wrapper{
-        width: 65%;
+        width: 43%;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        background: white;
+        padding: 2rem;
+        border-radius: 4px;
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
     }
 
     .wrap_input_container {
         height: 5rem;
+        margin-bottom: .75rem;
     }
 
     input{
@@ -183,7 +195,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 3rem;
+        margin-bottom: .19rem;
+    }
+
+    /* LARGE TABLETS */
+    @media (max-width: 1024px) {
+        .form_wrapper{
+            width: 80%;
+        }
     }
 
     /* TABLETS */
@@ -196,18 +215,44 @@
     /* MOBILE */
     @media (max-width: 414px) {
         .form_wrapper{
-            width: 90%;
+            width: 100%;
+            padding: 1rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: none;
+            background: white;
+        }
+
+        .logo_wrapper {
+            margin-bottom: 1.5rem;
+        }
+        .logo_wrapper img {
+            width: 8rem;
+        }
+
+        .page_wrapper{
+            display: block;
+            font-size: 13px;
+        }
+
+        .row{
+            display: block;
         }
     }
 
 
 </style>
 
+<div class="background"></div>
+
 <div class="form_wrapper">
 
     <div class="logo_wrapper">
         <img src="./assets/images/mindit_logo.svg" id="mindit_logo" alt="mindit_logo"/>
     </div>
+
+    <div class="motto">Get into the quiz arena!</div>
 	
 	<div class='page_wrapper'>
 		<div class='row'>
