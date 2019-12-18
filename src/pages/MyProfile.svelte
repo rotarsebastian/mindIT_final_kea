@@ -95,7 +95,7 @@
 				isValid = (elmValue.replace(/ /g,'').length === 4 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
 				break;
 			case 'phone':
-				isValid = elmValue.replace(/ /g,'').length < 8 && elmValue.replace(/ /g,'').length > 12;
+				isValid = elmValue.replace(/ /g,'').length >= 8 && elmValue.replace(/ /g,'').length < 12;
 				break;
 			case 'city':
 				isValid = elmValue.replace(/ /g,'').length > 2;
@@ -201,7 +201,7 @@
 </style>
 
 {#await promiseUser}
-    <div class="loading_spinner">...waiting (spinner)</div>
+    <div class="loader">Loading...</div>
 {:then user}
 	<div class="page_title">Your profile</div>
 	

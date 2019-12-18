@@ -3,6 +3,12 @@
 	import router, { curRoute } from './routing/router.js';
 	import { onMount } from 'svelte';
 	import jq from "jquery";
+	import toastr from "toastr";
+
+	 toastr.options = {
+		"positionClass": "toast-bottom-left",
+		"preventDuplicates": true,
+    }
 
 	let showHeader = true, isAdmin = false;
 
@@ -80,6 +86,9 @@
 			},
 			success: (data) => {
 				console.log(data);
+				if( data.status === 1 ){
+					toastr.success(`All payments retrieved successfully! Deleted users: ${data.deletedUsers}`);
+				}
 			},
 			error: error => {
 				console.log(error);

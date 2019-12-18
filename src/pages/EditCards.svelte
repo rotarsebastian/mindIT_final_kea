@@ -219,7 +219,7 @@
 </style>
 
 {#await promiseCards}
-    <div class="loading_spinner">...waiting (spinner)</div>
+    <div class="loader">Loading...</div>
 {:then cards}
     <div class="page_title">Edit cards</div>
 

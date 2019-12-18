@@ -82,7 +82,7 @@
 </style>
 
 {#await promiseQuizzes}
-    <div class="loading_spinner">...waiting (spinner)</div>
+    <div class="loader">Loading...</div>
 {:then quizzes }
 	<div id="searchBar_container">
 		<div id="searchBar">

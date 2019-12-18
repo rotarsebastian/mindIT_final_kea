@@ -174,7 +174,7 @@
 </style>
 
 {#await promiseQuestions}
-    <div class="loading_spinner">...waiting (spinner)</div>
+    <div class="loader">Loading...</div>
 {:then quiz}
     <div class="content">
         {#each quiz.questions as question, i} 

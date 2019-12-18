@@ -57,7 +57,7 @@
 </style>
 
 {#await promiseQuiz}
-    <div class="loading_spinner">...waiting (spinner)</div>
+    <div class="loader">Loading...</div>
 {:then quiz}
     <div class="answer_quiz_top_bar">
         <div class="answer_quiz_top_bar_left">

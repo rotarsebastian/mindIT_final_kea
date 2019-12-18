@@ -244,7 +244,7 @@
 </style>
 
 {#await promiseQuiz}
-    <div class="loading_spinner">...waiting (spinner)</div>
+    <div class="loader">Loading...</div>
 {:then quiz}
     <div class="wrap_input_container">
         <div class="inputElement">
