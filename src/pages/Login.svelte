@@ -59,7 +59,7 @@
 		triedWithEmpty = false;
 		switch(input) {
 			case 'username':
-				isValid = elmValue.replace(/ /g,'').length > 1;
+				isValid = elmValue.replace(/ /g,'').length > 5;
 				break;
 			case 'password':
 				isValid = elmValue.length > 5;
@@ -132,7 +132,7 @@
 						<input type="text" bind:value={user_emailOrUsername} placeholder="Email or username" on:input={() => setFirstTouched('username')} />
 					</div>
 					{#if (!(validateInput(user_emailOrUsername, 'username')) && usernameWasTouched) || (!(validateInput(user_emailOrUsername, 'username')) && triedWithEmpty) }
-						<div class="error">Your username or email is not long enough</div>
+						<div class="error">More than 5 characters!</div>
 					{/if}
 				</div>
 				
@@ -152,7 +152,7 @@
 						<input type="password" bind:value={user_password} placeholder="Last name" on:input={() => setFirstTouched('password')} />
 					</div>
 					{#if (!(validateInput(user_password, 'password')) && passwordWasTouched) || (!(validateInput(user_password, 'password')) && triedWithEmpty) }
-						<div class="error">Your password is not long enough</div>
+						<div class="error">More than 5 characters!</div>
 					{/if}
 				</div>
             </div>

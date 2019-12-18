@@ -252,7 +252,7 @@
                             <input type="text" bind:value={card.expDate} placeholder="ex. 03/2019" on:input={() => setFirstTouched('expDate')} />
                         </div>
                         {#if (!(validateInput(card.expDate, 'expDate')) && expDateWasTouched) || (!(validateInput(card.expDate, 'expDate')) && triedWithEmpty) }
-                            <div class="error">Your credit card exp date is not not valid</div>
+						<div class="error">MM/YYYY</div>
                         {/if}
                     </div>
                     <div class="wrap_input_container">
@@ -270,7 +270,7 @@
                             <input type="text" bind:value={card.CVV} placeholder="ex. 865" on:input={() => setFirstTouched('CVV')} />
                         </div>
                         {#if (!(validateInput(card.CVV, 'CVV')) && CVVWasTouched) || (!(validateInput(card.CVV, 'CVV')) && triedWithEmpty) }
-                            <div class="error">Your credit card CVV is not not valid (ex. 865)</div>
+						<div class="error">CVV needs 3 numbers!</div>
                         {/if}
                     </div>
                     {#if card.isPrimary !== 1}

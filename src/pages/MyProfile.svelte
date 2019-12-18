@@ -77,28 +77,28 @@
 		triedWithEmpty = false;
 		switch(input) {
 			case 'firstName':
-				isValid = elmValue.length > 1;
+				isValid = elmValue.replace(/ /g,'').length > 1 && /^[a-zA-Z]*$/g.test(elmValue.replace(/ /g,''));
 				break;
 			case 'lastName':
-				isValid = elmValue.length > 1;
+				isValid = elmValue.replace(/ /g,'').length > 1 && /^[a-zA-Z]*$/g.test(elmValue.replace(/ /g,''));
 				break;
 			case 'username':
-				isValid = elmValue.replace(/ /g,'').length > 1;
+				isValid = elmValue.replace(/ /g,'').length > 5;
 				break;
 			case 'password':
 				isValid = elmValue.length > 5;
-				break;
+                break;
 			case 'address':
-				isValid = elmValue.length > 1;
+				isValid = elmValue.replace(/ /g,'').length > 5;
 				break;
 			case 'postalCode':
 				isValid = (elmValue.replace(/ /g,'').length === 4 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
 				break;
 			case 'phone':
-				isValid = (elmValue.replace(/ /g,'').length === 8) ? true : false;
+				isValid = elmValue.replace(/ /g,'').length < 8 && elmValue.replace(/ /g,'').length > 12;
 				break;
 			case 'city':
-				isValid = elmValue.length > 1;
+				isValid = elmValue.replace(/ /g,'').length > 2;
 				break;
 			default:
 				console.log(`VALIDATION FAILED: no validation for: ${input}`);
@@ -215,7 +215,7 @@
 						<input type="text" bind:value={user.firstName} placeholder="First name" on:input={() => setFirstTouched('firstName')} />
 					</div>
 					{#if (!(validateInput(user.firstName, 'firstName')) && firstNameWasTouched) || (!(validateInput(user.firstName, 'firstName')) && triedWithEmpty) }
-						<div class="error">Your first name is not long enough</div>
+						<div class="error">Only letters and more than 2 characters!</div>
 					{/if}
 				</div>
 				<div class="wrap_input_container">
@@ -226,7 +226,7 @@
 						<input type="text" bind:value={user.lastName} placeholder="Last name" on:input={() => setFirstTouched('lastName')} />
 					</div>
 					{#if (!(validateInput(user.lastName, 'lastName')) && lastNameWasTouched) || (!(validateInput(user.lastName, 'lastName')) && triedWithEmpty) }
-						<div class="error">Your last name is not long enough</div>
+						<div class="error">Only letters and more than 2 characters!</div>
 					{/if}
 				</div>
 				<div class="wrap_input_container">
@@ -237,7 +237,7 @@
 						<input type="text" bind:value={user.username} placeholder="Username" on:input={() => setFirstTouched('username')} />
 					</div>
 					{#if (!(validateInput(user.username, 'username')) && usernameWasTouched) || (!(validateInput(user.username, 'username')) && triedWithEmpty) }
-						<div class="error">Your username is not long enough</div>
+						<div class="error">More than 5 characters!</div>
 					{/if}
 				</div>
 				<div class="wrap_input_container">
@@ -248,7 +248,7 @@
 						<input type="password" bind:value={user.password} placeholder="Password" on:input={() => setFirstTouched('password')} />
 					</div>
 					{#if (!(validateInput(user.password, 'password')) && passwordWasTouched) || (!(validateInput(user.password, 'password')) && triedWithEmpty) }
-						<div class="error">Your password is not long enough</div>
+						<div class="error">More than 5 characters!</div>
 					{/if}
 				</div>
 			</div>
@@ -261,7 +261,7 @@
 						<input type="text" bind:value={user.address} placeholder="Address" on:input={() => setFirstTouched('address')} />
 					</div>
 					{#if (!(validateInput(user.address, 'address')) && addressWasTouched) || (!(validateInput(user.address, 'address')) && triedWithEmpty) }
-						<div class="error">Your address is not long enough</div>
+						<div class="error">More than 5 characters!</div>
 					{/if}
 				</div>
 				<div class="wrap_input_container">
@@ -272,7 +272,7 @@
 						<input type="text" bind:value={user.postalCode} placeholder="Postal code" on:input={() => setFirstTouched('postalCode')} />
 					</div>
 					{#if (!(validateInput(user.postalCode, 'postalCode')) && postalCodeWasTouched) || (!(validateInput(user.postalCode, 'postalCode')) && triedWithEmpty) }
-						<div class="error">Your postal code is not not valid</div>
+                        <div class="error">Postal code needs 4 numbers!</div>
 					{/if}
 				</div>
 				<div class="wrap_input_container">
@@ -298,7 +298,7 @@
 						<input type="text" bind:value={user.phone} placeholder="Phone number" on:input={() => setFirstTouched('phone')} />
 					</div>
 					{#if (!(validateInput(user.phone, 'phone')) && phoneWasTouched) || (!(validateInput(user.phone, 'phone')) && triedWithEmpty) }
-						<div class="error">Your phone is not valid</div>
+                        <div class="error">Phone number needs 8 numbers!</div>
 					{/if}
 				</div>
 				<div class="wrap_input_container">
@@ -309,7 +309,7 @@
 						<input type="text" bind:value={user.city} placeholder="City" on:input={() => setFirstTouched('city')} />
 					</div>
 					{#if (!(validateInput(user.city, 'city')) && cityWasTouched) || (!(validateInput(user.city, 'city')) && triedWithEmpty) }
-						<div class="error">Your city is not long enough</div>
+						<div class="error">More than 2 characters!</div>
 					{/if}
 				</div>
 				<div class="wrap_input_container">

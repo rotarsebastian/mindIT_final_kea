@@ -9,7 +9,7 @@
     };
 
 	let smthWasTouched = false, firstNameWasTouched = false, lastNameWasTouched = false, usernameWasTouched = false, passwordWasTouched = false,
-		emailWasTouched = false, cardNumberWasTouched = false, expDateWasTouched = false, CVVWasTouched = false, triedWithEmpty = false;
+		emailWasTouched = false, cardNumberWasTouched = false, expDateWasTouched = false, CVVWasTouched = false, triedWithEmpty = true;
 
     toastr.options = {
 		"positionClass": "toast-bottom-right",
@@ -44,19 +44,19 @@
 		triedWithEmpty = false;
 		switch(input) {
 			case 'firstName':
-				isValid = elmValue.replace(/ /g,'').length > 1 && /^[a-z][a-z\s]*$/.test(elmValue.replace(/ /g,''));
+				isValid = elmValue.replace(/ /g,'').length > 1 && /^[a-zA-Z]*$/g.test(elmValue.replace(/ /g,''));
 				break;
 			case 'lastName':
-				isValid = elmValue.replace(/ /g,'').length > 1 && /^[a-z][a-z\s]*$/.test(elmValue.replace(/ /g,''));
+				isValid = elmValue.replace(/ /g,'').length > 1 && /^[a-zA-Z]*$/g.test(elmValue.replace(/ /g,''));
 				break;
 			case 'username':
-				isValid = elmValue.replace(/ /g,'').length > 1;
+				isValid = elmValue.replace(/ /g,'').length > 5;
 				break;
 			case 'password':
 				isValid = elmValue.length > 5;
                 break;
             case 'email':
-                isValid = elmValue.length > 0 && validateEmail(elmValue);
+                isValid = elmValue.length > 5 && validateEmail(elmValue);
                 break;
 			case 'cardNumber':
 				isValid = (elmValue.replace(/ /g,'').length === 16 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
@@ -116,12 +116,15 @@
 				success: (data) => {
                     console.log(data);
                     if(data.status === 1) {
+                        toastr.success('Your account has been created! You can login now');
                         curRoute.set('/login');
                         window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
                     } else if (data.message === 'user already existent'){
                         toastr.info('Already taken! Please choose another username or email!');
                     } else if (data.message === 'Insufficient amount to transfer - cannot create first payment'){
                         toastr.info('Please use a credit card which has more than 20kr as balance!');
+                    } else if (data.message === 'userPassword too short'){
+                        toastr.error('Your password is not long enough! You need to have at least 6 characters')
                     }
 				},
 				error: (err) => {
@@ -202,7 +205,7 @@
 						<input type="text" bind:value={userData.firstName} placeholder="First name" on:input={() => setFirstTouched('firstName')} />
 					</div>
 					{#if (!(validateInput(userData.firstName, 'firstName')) && firstNameWasTouched) || (!(validateInput(userData.firstName, 'firstName')) && triedWithEmpty) }
-						<div class="error">Your first name is not long enough</div>
+						<div class="error">Only letters and more than 2 characters!</div>
 					{/if}
 				</div>
 				
@@ -217,7 +220,7 @@
 						<input type="text" bind:value={userData.lastName} placeholder="Last name" on:input={() => setFirstTouched('lastName')} />
 					</div>
 					{#if (!(validateInput(userData.lastName, 'lastName')) && lastNameWasTouched) || (!(validateInput(userData.lastName, 'lastName')) && triedWithEmpty) }
-						<div class="error">Your last name is not long enough</div>
+						<div class="error">Only letters and more than 2 characters!</div>
 					{/if}
 				</div>
 				
@@ -236,7 +239,7 @@
                         <input class="email_input" type="text" bind:value={userData.email} placeholder="Email" on:input={() => setFirstTouched('email')} />
                     </div>
                     {#if (!(validateInput(userData.email, 'email')) && emailWasTouched) || (!(validateInput(userData.email, 'email')) && triedWithEmpty) }
-                        <div class="error">Your credit card number is not not valid</div>
+                        <div class="error">Your email is not valid!</div>
                     {/if}
                 </div>
             </div>
@@ -254,7 +257,7 @@
 						<input class="username_input" type="text" bind:value={userData.username} placeholder="Username" on:input={() => setFirstTouched('username')} />
 					</div>
 					{#if (!(validateInput(userData.username, 'username')) && usernameWasTouched) || (!(validateInput(userData.username, 'username')) && triedWithEmpty) }
-						<div class="error">Your username is not long enough</div>
+						<div class="error">More than 5 characters!</div>
 					{/if}
 				</div>
             </div>
@@ -268,7 +271,7 @@
 						<input type="password" bind:value={userData.password} placeholder="Password" on:input={() => setFirstTouched('password')} />
 					</div>
 					{#if (!(validateInput(userData.password, 'password')) && passwordWasTouched) || (!(validateInput(userData.password, 'password')) && triedWithEmpty) }
-						<div class="error">Your password is not long enough</div>
+						<div class="error">More than 5 characters!</div>
 					{/if}
 				</div>
             </div>
@@ -286,7 +289,7 @@
                         <input maxlength="19" type="text" bind:value={userData.cardNumber} placeholder="Card number" on:input={() => setFirstTouched('cardNumber')} />
                     </div>
                     {#if (!(validateInput(userData.cardNumber, 'cardNumber')) && cardNumberWasTouched) || (!(validateInput(userData.cardNumber, 'cardNumber')) && triedWithEmpty) }
-                        <div class="error">Your credit card number is not not valid</div>
+                        <div class="error">Card number needs 16 numbers!</div>
                     {/if}
                 </div>
             </div>
@@ -304,7 +307,7 @@
 						<input type="text" bind:value={userData.expDate} placeholder="ex. 01/2019" on:input={() => setFirstTouched('expDate')} />
 					</div>
 					{#if (!(validateInput(userData.expDate, 'expDate')) && expDateWasTouched) || (!(validateInput(userData.expDate, 'expDate')) && triedWithEmpty) }
-						<div class="error">Your expDate is not long valid</div>
+						<div class="error">MM/YYYY</div>
 					{/if}
 				</div>
             </div>
@@ -318,7 +321,7 @@
 						<input type="CVV" bind:value={userData.CVV} placeholder="CVV" on:input={() => setFirstTouched('CVV')} />
 					</div>
 					{#if (!(validateInput(userData.CVV, 'CVV')) && CVVWasTouched) || (!(validateInput(userData.CVV, 'CVV')) && triedWithEmpty) }
-						<div class="error">Your CVV is not long enough</div>
+						<div class="error">CVV needs 3 numbers!</div>
 					{/if}
 				</div>
             </div>

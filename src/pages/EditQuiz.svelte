@@ -254,7 +254,7 @@
             <input type="text" bind:value={quizData.quizName} on:input={() => validateInput(quizData.quizName, 'name')}/>
         </div>
         {#if showError(quizData.quizName) }
-            <div class="error">Your quiz name is not long enough</div>
+            <div class="error">More than one character!</div>
         {/if}
     </div>
 <div class="wrapper">
@@ -268,7 +268,7 @@
                     <textarea type="text" bind:value={quiz.questions[i].questionContent} on:input={() => validateInput(quiz.questions[i].questionContent, '')}></textarea>
                 </div>
                 {#if showError(quiz.questions[i].questionContent) }
-                    <div class="error">Your question is not long enough</div>
+                    <div class="error">More than one character!</div>
                 {/if}
             </div>
 
@@ -280,7 +280,7 @@
                         <textarea id="lastName" bind:value={quiz.questions[i].questionAnswer} name="questionAnswer" on:input={() => validateInput(quiz.questions[i].questionAnswer, '')}></textarea>
                 </div>
                 {#if showError(quiz.questions[i].questionAnswer) }
-                    <div class="error">Your answer is not long enough</div>
+                    <div class="error">More than one character!</div>
                 {/if}
             </div>
 
@@ -312,7 +312,7 @@
                     <textarea type="text" bind:value={questionValue} placeholder="Enter your question here" on:input={() => validateInput(questionValue, 'question')}></textarea>
                 </div>
                 {#if (showError(questionValue) && questionWasTouched) || (showError(questionValue) && triedWithEmpty) }
-                    <div class="error">Your question is not long enough</div>
+                    <div class="error">More than one character!</div>
                 {/if}
             </div>
 
@@ -324,7 +324,7 @@
                         <textarea id="lastName" bind:value={questionAnswer} name="questionAnswer" placeholder="Enter the correct answer here" on:input={() => validateInput(questionAnswer, 'answer')}></textarea>
                 </div>
                 {#if (showError(questionAnswer) && answerWasTouched) || (showError(questionAnswer) && triedWithEmpty) }
-                    <div class="error">Your answer is not long enough</div>
+                    <div class="error">More than one character!</div>
                 {/if}
             </div>
 

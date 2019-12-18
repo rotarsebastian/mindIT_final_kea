@@ -135,7 +135,7 @@
 				<input type="text" bind:value={quizName} placeholder="Enter your quiz name here" on:input={() => validateInput(quizName, 'name')} />
 			</div>
 			{#if (showError(quizName) && nameWasTouched) || (showError(quizName) && triedWithEmpty) }
-				<div class="error">Your quiz name is not long enough</div>
+				<div class="error">More than one character!</div>
 			{/if}
 		</div>
 		<div class="wrap_input_container">
@@ -146,7 +146,7 @@
 				<textarea type="text" bind:value={questionValue} placeholder="Enter your question here" on:input={() => validateInput(questionValue, 'question')}></textarea>
 			</div>
 			{#if (showError(questionValue) && questionWasTouched) || (showError(questionValue) && triedWithEmpty)}
-				<div class="error">Your question is not long enough</div>
+				<div class="error">More than one character!</div>
 			{/if}
 		</div>
 
@@ -158,7 +158,7 @@
 					<textarea id="lastName" bind:value={questionAnswer} name="questionAnswer" placeholder="Enter the correct answer here" on:input={() => validateInput(questionAnswer, 'answer')}></textarea>
 			</div>
 			{#if (showError(questionAnswer) && answerWasTouched) || (showError(questionAnswer) && triedWithEmpty) }
-				<div class="error">Your answer is not long enough</div>
+				<div class="error">More than one character!</div>
 			{/if}
 		</div>
 

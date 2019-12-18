@@ -141,7 +141,7 @@
                         <input type="text" bind:value={cardData.cardNumber} placeholder="Card number" on:input={() => setFirstTouched('cardNumber')} />
                     </div>
                     {#if (!(validateInput(cardData.cardNumber, 'cardNumber')) && cardNumberWasTouched) || (!(validateInput(cardData.cardNumber, 'cardNumber')) && triedWithEmpty) }
-                        <div class="error">Your credit card number is not not valid</div>
+                        <div class="error">Card number needs 16 numbers!</div>
                     {/if}
                 </div>
             </div>
@@ -154,7 +154,7 @@
                         <input type="text" bind:value={cardData.expDate} placeholder="ex. 03/2019" on:input={() => setFirstTouched('expDate')} />
                     </div>
                     {#if (!(validateInput(cardData.expDate, 'expDate')) && expDateWasTouched) || (!(validateInput(cardData.expDate, 'expDate')) && triedWithEmpty) }
-                        <div class="error">Your credit card exp date is not not valid</div>
+						<div class="error">MM/YYYY</div>
                     {/if}
                 </div>
             </div>
@@ -167,7 +167,7 @@
                         <input type="text" bind:value={cardData.CVV} placeholder="ex. 865" on:input={() => setFirstTouched('CVV')} />
                     </div>
                     {#if (!(validateInput(cardData.CVV, 'CVV')) && CVVWasTouched) || (!(validateInput(cardData.CVV, 'CVV')) && triedWithEmpty) }
-                        <div class="error">Your credit card CVV is not not valid (ex. 865)</div>
+						<div class="error">CVV needs 3 numbers!</div>
                     {/if}
                 </div>
             </div>
