@@ -46,7 +46,7 @@
 				isValid = (elmValue.replace(/ /g,'').length === 3 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
 				break;
 			default:
-				console.log(`VALIDATION FAILED: no validation for: ${input}`);
+				// console.log(`VALIDATION FAILED: no validation for: ${input}`);
 				break;
 		}
 		return isValid;
@@ -74,7 +74,7 @@
 					token: localStorage.token
 				},
 				success: (data) => {
-                    console.log(data);
+                    // console.log(data);
                     toastr.success('Your card has been added successfully');
                     cardData = {
                         cardNumber: '',
@@ -87,7 +87,7 @@
 					window.history.pushState({path: '/edit-cards'}, '', window.location.origin + '/edit-cards');
 				},
 				error: (err) => {
-					console.log(err);
+					// console.log(err);
 				}
 			});
 		}

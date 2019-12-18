@@ -27,11 +27,11 @@
                     card.number = card.number.replace(/(\d{4})/g, '$1 ').replace(/(^\s+|\s+$)/,'');
                     card.number = card.number.replace(/^.{9}/g, '**** ****');      
                 });
-                console.log(cardsData);
+                // console.log(cardsData);
                 // return cardsData;
 			},
 			error: error => {
-				console.log(error);
+				// console.log(error);
 			}
 		});
 		if (cards) {
@@ -66,7 +66,7 @@
 				isValid = (elmValue.replace(/ /g,'').length === 3 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
 				break;
 			default:
-				console.log(`VALIDATION FAILED: no validation for: ${input}`);
+				// console.log(`VALIDATION FAILED: no validation for: ${input}`);
 				break;
 		}
 		return isValid;
@@ -96,11 +96,11 @@
 					token: localStorage.token
 				},
 				success: (data) => {
-                    console.log(data);
+                    // console.log(data);
 					toastr.success('Your card has been edited successfully');
 				},
 				error: (err) => {
-					console.log(err);
+					// console.log(err);
 				}
 			});
 		} else if(!somethingWasTouched) {
@@ -131,7 +131,7 @@
                 toastr.success('Primary card updated successfully');
             },
             error: (error) => {
-                console.log(error);
+                // console.log(error);
             }
         });
     }
@@ -151,7 +151,7 @@
                 promiseCards = cardsData;
             },
             error: (error) => {
-                console.log(error);
+                // console.log(error);
             }
         });
     }

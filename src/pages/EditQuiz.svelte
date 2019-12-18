@@ -60,7 +60,7 @@
     }
 
     const removeQuestion = (question_id) => {
-        console.log(quizData)
+        // console.log(quizData)
         quizData.questions = quizData.questions.filter(question => {return question.questionID !== question_id});
         if( typeof question_id !== 'undefined') {quizData.removedQuestions.push(question_id);}
         promiseQuiz = quizData;
@@ -119,7 +119,7 @@
                 return quizData;
 			},
 			error: error => {
-				console.log(error);
+				// console.log(error);
 			}
 		});
 		if (quiz) {

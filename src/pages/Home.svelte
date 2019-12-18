@@ -33,7 +33,7 @@
 				matchesQuizzes = matches;
 			},
 			error: error => {
-				console.log(error);
+				// console.log(error);
 			}
 		});
 		promiseQuizzes = matchesQuizzes;
@@ -49,11 +49,11 @@
 				token: localStorage.token
 			},
 			success: (data) => {
-				console.log(data);
+				// console.log(data);
 				return data;
 			},
 			error: error => {
-				console.log(error);
+				// console.log(error);
 			}
 		});
 		if (quizzesArray) {

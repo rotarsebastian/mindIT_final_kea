@@ -19,7 +19,7 @@
                 user_password: user_password
             },
             success: function(data) {
-                console.log(data)
+                // console.log(data)
                 if(data.status === 1){
                     localStorage.token = data['token'];
                     localStorage.userName = data['userName'];
@@ -33,7 +33,7 @@
                 }
             },
             error: function() {
-                console.log("Error: Login Failed");
+                // console.log("Error: Login Failed");
             }
         });
     };
@@ -65,7 +65,7 @@
 				isValid = elmValue.length > 5;
                 break;
 			default:
-				console.log(`VALIDATION FAILED: no validation for: ${input}`);
+				// console.log(`VALIDATION FAILED: no validation for: ${input}`);
 				break;
 		}
 		return isValid;

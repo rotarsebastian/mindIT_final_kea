@@ -60,18 +60,18 @@
 					const userString = 'administrator040e2b167b33b';
 					isAdmin = data['userID'].indexOf(userString) !== -1 ? true : false;
 					var alertMessage = 'You have a valid token! Here is your user Id: ' + data['userID'];
-					console.log(alertMessage);
+					// console.log(alertMessage);
 					allowUser = true;
 				} 
 				else if (typeof data['error'] !== 'undefined') {
-					console.log('Error: ' + data['error']);
+					// console.log('Error: ' + data['error']);
 				}
 				else {
-					console.log('Error: Your request has failed.');
+					// console.log('Error: Your request has failed.');
 				}
 			},
 			error: error => {
-				console.log(error);
+				// console.log(error);
 			}
         });
 	}
@@ -85,13 +85,13 @@
 				token: localStorage.token
 			},
 			success: (data) => {
-				console.log(data);
+				// console.log(data);
 				if( data.status === 1 ){
 					toastr.success(`All payments retrieved successfully! Deleted users: ${data.deletedUsers}`);
 				}
 			},
 			error: error => {
-				console.log(error);
+				// console.log(error);
 			}
         });
 	}

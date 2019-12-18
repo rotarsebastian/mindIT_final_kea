@@ -34,7 +34,7 @@
 				token: localStorage.token
 			},
 			success: (data) => {
-				console.log(data)
+				// console.log(data)
 				userData = data;
 				const primaryCardArray = userData.creditCards.filter((card) => { return card.isPrimary === 1} );
 				userData.primaryCard = primaryCardArray[0];
@@ -45,11 +45,11 @@
 				if(userData.postalCode === null){userData.postalCode = ''};
 				if(userData.address === null){userData.address = ''};
 				if(userData.city === null){userData.city = ''};
-				console.log(userData);
+				// console.log(userData);
                 return userData;
 			},
 			error: error => {
-				console.log(error);
+				// console.log(error);
 			}
 		});
 		if (user) {
@@ -102,7 +102,7 @@
 				isValid = elmValue.replace(/ /g,'').length > 2;
 				break;
 			default:
-				console.log(`VALIDATION FAILED: no validation for: ${input}`);
+				// console.log(`VALIDATION FAILED: no validation for: ${input}`);
 				break;
 		}
 		return isValid;
@@ -142,13 +142,13 @@
 					token: localStorage.token
 				},
 				success: (data) => {
-					console.log(data);
+					// console.log(data);
 					toastr.success('Your user has been edited successfully');
 					// curRoute.set('/my-quizzes');
 					// window.history.pushState({path: '/my-quizzes'}, '', window.location.origin + '/my-quizzes');
 				},
 				error: (err) => {
-					console.log(err);
+					// console.log(err);
 				}
 			});
 		} else {
@@ -165,7 +165,7 @@
 				token: localStorage.token
 			},
 			success: (data) => {
-				console.log(data);
+				// console.log(data);
 				if(data.status === 1) {
 					localStorage.clear()
 					toastr.success('Your user has been deleted successfully');
@@ -174,7 +174,7 @@
 				}
 			},
 			error: (err) => {
-				console.log(err);
+				// console.log(err);
 			}
 		});
 	}

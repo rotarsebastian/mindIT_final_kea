@@ -68,7 +68,7 @@
 				isValid = (elmValue.replace(/ /g,'').length === 3 && /^\d+$/.test(elmValue.replace(/ /g,''))) ? true : false;
 				break;
 			default:
-				console.log(`VALIDATION FAILED: no validation for: ${input}`);
+				// console.log(`VALIDATION FAILED: no validation for: ${input}`);
 				break;
 		}
 		return isValid;
@@ -114,7 +114,7 @@
                     card_CVV: userData.CVV
 				},
 				success: (data) => {
-                    console.log(data);
+                    // console.log(data);
                     if(data.status === 1) {
                         toastr.success('Your account has been created! You can login now');
                         curRoute.set('/login');
@@ -128,7 +128,7 @@
                     }
 				},
 				error: (err) => {
-					console.log(err);
+					// console.log(err);
 				}
 			});
 		} else {

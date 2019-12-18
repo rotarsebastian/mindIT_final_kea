@@ -34,7 +34,7 @@
 				promiseQuizzes = matches;
 			},
 			error: error => {
-				console.log(error);
+				// console.log(error);
 			}
 		});
 	}
@@ -53,7 +53,7 @@
 				return data;
 			},
 			error: error => {
-				console.log(error);
+				// console.log(error);
 			}
 		});
 		if (quizzesArray) {
@@ -86,13 +86,13 @@
 				quizID: quiz_id
 			},
 			success: (data) => {
-				console.log(data);
+				// console.log(data);
 				myQuizzesData = myQuizzesData.filter(quiz => {return quiz.id !== quiz_id});
 				promiseQuizzes = myQuizzesData;
 
 			},
 			error: error => {
-				console.log(error);
+				// console.log(error);
 			}
 		});
 	}

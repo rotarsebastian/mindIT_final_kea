@@ -25,7 +25,7 @@
                 return data;
 			},
 			error: error => {
-				console.log(error);
+				//console.log(error);
 			}
 		});
 		if (quiz) {
@@ -61,7 +61,7 @@
                     token: localStorage.token
                 },
                 success: (response) => {
-                    console.log(response);
+                    // console.log(response);
                     if(response.message === 'user completed quiz before'){
                         toastr.error('You cannot complete the same quiz twice');
                         curRoute.set('/home');
@@ -86,7 +86,7 @@
                     }
                 },
                 error: error => {
-                    console.log(error);
+                    // console.log(error);
                 }
             });
         });
