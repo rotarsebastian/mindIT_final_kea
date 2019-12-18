@@ -5,7 +5,7 @@
 
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 
-    let user_emailOrUsername = 'admin_sebi', user_password = 'sebi1234';
+    let user_emailOrUsername = 'admin_mindit', user_password = 'administrator';
     
     let smthWasTouched = false,  passwordWasTouched = false, usernameWasTouched = false, triedWithEmpty = false;
     
