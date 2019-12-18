@@ -168,7 +168,7 @@
     }
 
     .wrap_input_container {
-        height: 90px;
+        height: 5rem;
     }
 
     input{
