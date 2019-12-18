@@ -19,15 +19,21 @@
                 user_password: user_password
             },
             success: function(data) {
-                console.log(data, data['token']);
-                localStorage.token = data['token'];
-                localStorage.userName = data['userName'];
-                window.location.href = '/home';
-                curRoute.set('/home');
-		        window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
+                console.log(data)
+                if(data.status === 1){
+                    localStorage.token = data['token'];
+                    localStorage.userName = data['userName'];
+                    window.location.href = '/home';
+                    curRoute.set('/home');
+                    window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
+                } else if(data.message === 'incorrect credentials'){
+                    toastr.error('Incorrect credentials. Please try again!');
+                } else if(data.message === 'your account is not active anymore'){
+                    toastr.error('Your account was deactivated. Please contact us to use it again!');
+                }
             },
             error: function() {
-                alert("Error: Login Failed");
+                console.log("Error: Login Failed");
             }
         });
     };
@@ -90,7 +96,7 @@
     }
 
     .form_wrapper{
-        width: 65%;
+        width: 35%;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -143,7 +149,7 @@
 						<label for="text">
 							Password
 						</label>
-						<input type="text" bind:value={user_password} placeholder="Last name" on:input={() => setFirstTouched('password')} />
+						<input type="password" bind:value={user_password} placeholder="Last name" on:input={() => setFirstTouched('password')} />
 					</div>
 					{#if (!(validateInput(user_password, 'password')) && passwordWasTouched) || (!(validateInput(user_password, 'password')) && triedWithEmpty) }
 						<div class="error">Your password is not long enough</div>

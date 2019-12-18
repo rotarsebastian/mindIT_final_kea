@@ -13,15 +13,15 @@ function redirectTo(event){
 </script>
 
 <style>
-a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  color: purple;
-  padding: 1rem 0;
-  padding-right: 10px;
-}
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: purple;
+    padding: 1rem 0;
+    width: 100%;
+  }
 </style>
 
 <a href={page.path} on:click|preventDefault={redirectTo}>{page.name}</a>

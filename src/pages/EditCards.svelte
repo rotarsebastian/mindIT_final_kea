@@ -103,7 +103,9 @@
 					console.log(err);
 				}
 			});
-		}
+		} else if(!somethingWasTouched) {
+            toastr.info('No changes were made! Please make a change in order to edit the card');
+        }
     }
 
     const toAddCreditCardPage = () => {

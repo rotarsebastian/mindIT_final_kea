@@ -2,6 +2,15 @@
 	import jq from "jquery";
 	import toastr from "toastr";
     import { curRoute } from '../routing/router.js';
+	import { onMount } from 'svelte';
+	
+	onMount(() => {
+		if(localStorage.getItem('token') === null){
+			curRoute.set('/login');
+			window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
+			location.reload();
+		}
+	})
 
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 	let userData = {};
@@ -12,7 +21,9 @@
     toastr.options = {
 		"positionClass": "toast-bottom-right",
 		"preventDuplicates": true,
-    }
+	}
+	
+
 
 	const getUserDetails = async () => {
 		const user = await jq.ajax({
@@ -29,8 +40,10 @@
 				userData.primaryCard.number = userData.primaryCard.number.replace(/(\d{4})/g, '$1 ').replace(/(^\s+|\s+$)/,'');
 				userData.primaryCard.number = userData.primaryCard.number.replace(/^.{14}/g, '**** **** ****');
 				delete userData.creditCards;
-				if(userData.phone === '0'){userData.phone = ''};
-				if(userData.postalCode === '0'){userData.postalCode = ''};
+				if(userData.phone === null){userData.phone = ''};
+				if(userData.postalCode === null){userData.postalCode = ''};
+				if(userData.address === null){userData.address = ''};
+				if(userData.city === null){userData.city = ''};
 				console.log(userData);
                 return userData;
 			},
@@ -137,27 +150,52 @@
 					console.log(err);
 				}
 			});
+		} else {
+			toastr.info('No changes were made! Please make a change in order to edit the user');
 		}
-    };
+	};
+	
+	const deleteProfile = () => {
+		jq.ajax({
+			type: "GET",
+			url: basicURL + "api-delete-profile.php",
+			dataType: "json",
+			data: {
+				token: localStorage.token
+			},
+			success: (data) => {
+				console.log(data);
+				if(data.status === 1) {
+					localStorage.clear()
+					toastr.success('Your user has been deleted successfully');
+					curRoute.set('/signup');
+					window.history.pushState({path: '/signup'}, '', window.location.origin + '/signup');
+				}
+			},
+			error: (err) => {
+				console.log(err);
+			}
+		});
+	}
 
 </script>
 
 <style>
-.edit_card_button{
-	background: transparent;
-    border: 1px solid #8000808a;
-    color: #8000808a;
-}
+	.edit_card_button{
+		background: transparent;
+		border: 1px solid #8000808a;
+		color: #8000808a;
+	}
 
-.edit_card_button:hover{
-	background: purple;
-	color: white;
-}
+	.edit_card_button:hover{
+		background: purple;
+		color: white;
+	}
 
-.purple_button, .orange_button{
-	width: 100%;
-	padding: 0.4em 0.7rem;
-}
+	.purple_button, .orange_button{
+		width: 100%;
+		padding: 0.4em 0.7rem;
+	}
 
 </style>
 
@@ -281,7 +319,7 @@
 				</div>
 				<div class="wrap_input_container">
 					<div class="wrap_buttons">
-						<button class="orange_button">Delete profile</button>
+						<button class="orange_button" on:click={deleteProfile}>Delete profile</button>
 					</div>
 				</div>
 			</div>

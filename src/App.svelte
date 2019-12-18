@@ -29,6 +29,10 @@
 				window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
 				showHeader = false;
 			}
+		} else {
+			curRoute.set(window.location.pathname);
+			window.history.pushState({path: window.location.pathname}, '', window.location.origin + window.location.pathname);
+			showHeader = true;
 		}
 		if (!history.state) {
 			window.history.replaceState({path: window.location.pathname}, '',   window.location.href)

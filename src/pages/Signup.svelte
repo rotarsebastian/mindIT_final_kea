@@ -44,10 +44,10 @@
 		triedWithEmpty = false;
 		switch(input) {
 			case 'firstName':
-				isValid = elmValue.length > 1;
+				isValid = elmValue.replace(/ /g,'').length > 1 && /^[a-z][a-z\s]*$/.test(elmValue.replace(/ /g,''));
 				break;
 			case 'lastName':
-				isValid = elmValue.length > 1;
+				isValid = elmValue.replace(/ /g,'').length > 1 && /^[a-z][a-z\s]*$/.test(elmValue.replace(/ /g,''));
 				break;
 			case 'username':
 				isValid = elmValue.replace(/ /g,'').length > 1;

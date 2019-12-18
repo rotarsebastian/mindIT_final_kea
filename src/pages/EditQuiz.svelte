@@ -2,9 +2,18 @@
 	import toastr from "toastr";
 	import jq from "jquery";
     import { curRoute } from '../routing/router.js';
+    import { onMount } from 'svelte';
 
     const urlParams = new URLSearchParams(window.location.search);
     const quiz_id = urlParams.get('id');
+
+    onMount(() => {
+        if(!quiz_id){
+            curRoute.set('/my-quizzes');
+            window.history.pushState({path: '/my-quizzes'}, '', window.location.origin + '/my-quizzes');
+        }
+    })
+
     const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 
     toastr.options = {

@@ -104,6 +104,13 @@
 		font-size: 20px;
 		background: transparent;
 		padding: 0;
+		cursor: pointer;
+		padding: 5px 10px;
+	}
+
+	.add_question_button:hover{
+		background: #9E5BD8;
+		color: #fff;
 	}
 
 	.purple_button{

@@ -99,12 +99,16 @@ button {
 
 .purple_button {
 	color: white;
-	background: purple;
-	border: none;
-	outline: none;
-	padding: 10px 20px;
-	border-radius: 4px;
-	cursor: pointer;
+    background: #9E5BD8;
+    border: none;
+    outline: none;
+    padding: 5px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.purple_button:hover {
+	opacity: .69;
 }
 
 .error {
@@ -150,12 +154,16 @@ button {
 
 .orange_button {
 	color: white;
-	background: orange;
-	border: none;
-	outline: none;
-	padding: 10px 20px;
-	border-radius: 4px;
-	cursor: pointer;
+    background: #E57E39;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 5px 20px;
+}
+
+.orange_button:hover{
+	opacity: .69;
 }
 
 .page_title{
