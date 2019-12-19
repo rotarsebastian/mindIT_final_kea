@@ -34,7 +34,7 @@ a:visited {
 	color: #e57e39;
     padding: 1rem;
     text-align: center;
-	font-size: 19px;
+	font-size: 14px;
 }
 
 label{
@@ -381,9 +381,8 @@ button:focus {
 }
 
 #mindit_logo{
-	height: 80%;
+	height: 100%;
 	cursor: pointer;
-	margin-left: 1rem;
 }
 
  /* LARGE TABLETS */
