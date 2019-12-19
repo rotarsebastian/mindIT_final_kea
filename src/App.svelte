@@ -10,23 +10,15 @@
 		"preventDuplicates": true,
     }
 
-	let showHeader = true, isAdmin = false;
+	let showHeader = true, isAdmin = false, isAuthPage = false;
 
 	onMount(async () => {
 		await promiseCheckUser;
-		if(window.location.pathname.includes('/login') || window.location.pathname.includes('/signup')) {
-			if(allowUser) {
-				showHeader = true;
-				curRoute.set('/home');
-				window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
-			} else {
-				curRoute.set(window.location.pathname);
-				window.history.pushState({path: window.location.pathname}, '', window.location.origin + window.location.pathname);
-				showHeader = false;
-			}
+		if(window.location.pathname === '/login' || window.location.pathname === '/signup') {
+			isAuthPage = true;
 		}
 		if(!allowUser) {
-			if(window.location.pathname.includes('/login') || window.location.pathname.includes('/signup')){
+			if(window.location.pathname === '/login' || window.location.pathname === '/signup'){
 				curRoute.set(window.location.pathname);
 				window.history.pushState({path: window.location.pathname}, '', window.location.origin + window.location.pathname);
 				showHeader = false;
@@ -36,8 +28,8 @@
 				showHeader = false;
 			}
 		} else {
-			curRoute.set(window.location.pathname);
-			window.history.pushState({path: window.location.pathname}, '', window.location.origin + window.location.pathname);
+			curRoute.set('/home');
+			window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
 			showHeader = true;
 		}
 		if (!history.state) {
@@ -113,6 +105,15 @@
 		margin-top: 6rem;
 	}
 
+	.authPage{
+		margin-top: 0 !important;
+		padding: 0 !important;
+	}
+
+	.notShow{
+		display: none;
+	}
+
 	.retrieve_payments{
 		position: fixed;
 		bottom: 1.5rem;
@@ -133,23 +134,22 @@
 <!-- ****************************************************** -->
 
 
-{#if allowUser }
-	{#if showHeader}
-		<Header></Header>
-	{/if}
 	{#if isAdmin}
 		<button class="retrieve_payments" on:click={retrievePayments}>Retrieve payments</button>
 	{/if}
-	<div id="pageContent">
+
+	<div class:notShow="{isAuthPage === true}">
+		<Header></Header>
+	</div>
+
+	<div id="pageContent" class:authPage="{isAuthPage === true}">
 		<!-- Page component updates here -->
 		<svelte:component this={router[$curRoute]} />
 	</div>
 
-{/if}
 
-{#if !allowUser}
-	<svelte:component this={router[$curRoute]} />
-{/if}
+
+
 
 
 

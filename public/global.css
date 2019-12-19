@@ -37,6 +37,10 @@ a:visited {
 	font-size: 14px;
 }
 
+.notShow{
+	display: none !important;
+}
+
 label{
 	display: block;
 	margin: 0;

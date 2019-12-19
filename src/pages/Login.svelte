@@ -2,6 +2,13 @@
     import jq from "jquery";
 	import toastr from "toastr";
     import { curRoute } from '../routing/router.js';
+    import { onMount } from 'svelte';
+
+	onMount(() => {
+        jq('#pageContent').addClass('authPage');
+        console.log(jq('.header_container'))
+		jq('.header_container').addClass('notShow');
+	})
 
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 
@@ -86,6 +93,7 @@
         width: 100%;
         padding: 0.4em 0.7rem;
     }
+
 
     .swichToSignupPage_container{
         width: 100%;

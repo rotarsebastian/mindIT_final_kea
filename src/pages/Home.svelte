@@ -2,6 +2,13 @@
 	import jq from "jquery";
 	import Quiz from '../components/Quiz.svelte';
 	import { curRoute } from '../routing/router.js';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		jq('div').removeClass('authPage');
+		jq('div').removeClass('notShow');
+		jq('#profile_name').text(localStorage.userName);
+	})
 
 	const basicURL = 'https://aqueous-escarpment-49631.herokuapp.com/apis/';
 

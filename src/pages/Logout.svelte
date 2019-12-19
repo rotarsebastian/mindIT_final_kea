@@ -5,8 +5,8 @@
 
 	onMount(() => {
 		localStorage.clear();
-		curRoute.set('/home');
-		window.history.pushState({path: '/home'}, '', window.location.origin + '/home');
+		curRoute.set('/login');
+		window.history.pushState({path: '/login'}, '', window.location.origin + '/login');
 		// window.location.href = '/login';
 	});
 	
