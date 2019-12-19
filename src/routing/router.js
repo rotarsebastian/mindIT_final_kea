@@ -13,7 +13,7 @@ import Signup from '../pages/Signup.svelte';
 import { writable } from 'svelte/store';
 
 const router = {
-    '/': Login,
+    '/': Home,
     '/home': Home,
     '/create-quiz': CreateQuiz,
     '/quiz': AnswerQuiz,

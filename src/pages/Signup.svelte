@@ -173,18 +173,23 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background: white;
-        padding: 2rem;
+        padding: .5rem;
         border-radius: 4px;
         box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
     }
 
     .wrap_input_container {
-        height: 5rem;
-        margin-bottom: .75rem;
+        height: 4.5rem;
+        margin-bottom: .15rem;
     }
 
     input{
         text-transform: capitalize;
+        height: 1.7rem;
+    }
+
+    label {
+        font-size: 12px;
     }
 
     .email_input, .username_input{
@@ -195,7 +200,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: .19rem;
+        height: 4rem;
     }
 
     /* LARGE TABLETS */
